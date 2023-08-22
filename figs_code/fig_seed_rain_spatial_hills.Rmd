@@ -1,0 +1,130 @@
+---
+title: "Figure seed rain"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+
+```{r, warning=F, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(magrittr)
+library(vegan)
+library(ggspatial)
+library(hillR)
+library(ggrepel)
+library(patchwork)
+```
+
+
+## Data:
+```{r}
+sampling_station <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
+#glimpse(sampling_station)
+
+# Total sampling effort (m2) per MH:
+mh_sampling_eff <- sampling_station %>%
+  group_by(mh, mh_id) %>%
+  summarise(ind_samp = first(sample_effort)) %>%
+  group_by(mh) %>%
+  summarise(samp_eff_m2 = sum(ind_samp))
+
+mh_sampling_eff
+
+sampling_station %<>% left_join(mh_sampling_eff) %>%
+  mutate(seeds_m2_mh = n_seeds/samp_eff_m2)
+```
+
+
+## Seed Rain plot
+```{r}
+data <- sampling_station %>%
+  group_by(mh, mh_id) %>%
+  filter(mh != "OA") %>%
+  summarise(n_seed_m2 = sum(n_seed_m2),
+            x = first(X_coord),
+            y = first(Y_coord),
+            diversity = n_distinct(bird_sp), 
+            mh = first(mh))
+
+spatial <- ggplot(data, aes(x = x, y = y, 
+                 fill = diversity, size = n_seed_m2)) +
+  geom_point(alpha = 0.9, pch = 21, color = "grey30") +
+  scale_size(range = c(1, 10), breaks = c(25, 100, 200)) +
+  #facet_wrap(~mh) +
+  coord_sf(crs = 4326) +
+  annotation_scale(line_width = 0.6, style = "ticks") +
+  scale_fill_gradient(low = "grey90", high = "grey10", breaks = c(2, 4, 6, 8)) +
+  labs(y = NULL, x = NULL, fill = "Bird sp.\nrichness",
+       title = "Spatial pattern of seed rain",
+       size = "Seeds per\nsq m") +
+  theme_bw() +
+  theme(legend.position = "bottom",
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r}
+hills <- read.csv(here("data/seed_trap_diversity_hills.csv"))
+```
+
+
+```{r}
+mycols <- viridis::viridis(8)
+main_sp <- hills %>% slice_max(q0, n=8) %>% arrange(desc(bird_sp))
+names(mycols) <- unique(main_sp$bird_sp)
+
+pd = position_jitter(0.01)
+
+hill.plot <- hills %>% 
+  select(bird_sp, starts_with("q")) %>%
+  pivot_longer(cols = starts_with("q"), 
+               names_to = "hill_no", values_to = "hill_value") %>%
+  mutate(hill_no = recode(hill_no, "q0" = "q = 0", "q1" = "q = 1", "q2" = "q = 2")) %>%
+  mutate(bird_sp_short = recode(bird_sp, "Erithacus rubecula" = "E. rub",
+                                  "Sylvia melanocephala" = "C. mel",
+                                  "Sylvia atricapilla" = "S. atr",
+                                  "Sylvia undata" = "C. und",
+                                  "Turdus merula" = "T. mer",
+                                  "Chloris chloris" = "C. chl",
+                                  "Sylvia communis" = "C. com",
+                                  "Phoenicurus phoenicurus" = "P. pho")) %>%
+  mutate(bird_sp_correct = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",
+                                  "Sylvia undata" = "Curruca undata",
+                                  "Sylvia communis" = "Curruca communis"))
+
+hill <- ggplot(hill.plot, aes(x = hill_no, y = hill_value, color = bird_sp)) + 
+  geom_line(aes(group = bird_sp), position = pd) +
+  geom_point(size =3, alpha =0.75, position = pd) + 
+  scale_color_manual(values=mycols) +
+  labs(x = NULL, y= "Diversity",
+       title = "Seed rain spatial diversity") +
+  geom_text_repel(data = hill.plot %>% filter(hill_no == "q = 2") %>%
+                                  filter(bird_sp %in% main_sp$bird_sp),
+            aes(label = bird_sp_correct, x = hill_no, y = hill_value), 
+            nudge_x = 0.25, direction = "y", hjust = "left", box.padding = 0.1,
+            fontface = "italic") +
+  scale_y_continuous(n.breaks = 9) +
+  expand_limits(x = 6) +
+  theme_bw() + 
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        axis.text=element_text(size=12),
+        axis.title=element_text(size=13))
+```
+
+
+```{r}
+(spatial + hill) +#/ guide_area() + 
+  plot_layout(widths = c(4,3), 
+              heights = c(6,1)) +
+  plot_annotation(tag_levels = 'A')
+
+ggsave(here("figs/fig_seed_rain_spatial+hills.pdf"), width = 10, height = 7)
+```
+

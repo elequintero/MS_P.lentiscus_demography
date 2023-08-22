@@ -1,0 +1,133 @@
+---
+title: "Figure stage transition birds"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(ggdist)
+library(ggrepel)
+
+theme_set(theme_minimal())
+```
+
+Load BIRD data:
+```{r}
+bird.data <- readRDS(here("data/propagules_by_bird_EP.rds")) %>%
+  arrange(bird_sp) 
+
+bird_grouping <- read.csv(here("data/bird_grouping.csv"))
+
+bird.viab <- readRDS(here("data/bird.Pviab_IDs.rds")) %>%
+  arrange(bird_sp) 
+```
+
+Load TOTAL initial crop:
+```{r}
+plant_crop <- readRDS(here("data/propagules_by_plant_and_bird_EP.rds")) %>% 
+  group_by(id_plant) %>%
+  summarise(cropsize = first(initcrop))
+
+crop_available <- sum(plant_crop$cropsize)
+```
+
+Prepare data for plot:
+```{r}
+bird.data.plot <- bird.data %>% 
+  mutate(crop = crop_available) %>%
+  select(-c(fru.viab.cons, fru.viab.disp)) %>%
+  cbind(viab = bird.viab[1]) %>%
+  mutate(fru.viab.disp = fru.disp * viab) %>% #recalculate viable seeds dispersed
+  pivot_longer(cols = c(crop, 
+                        fru.cons, 
+                        fru.disp,
+                        fru.viab.disp, 
+                        viab.seed.surv.pred, 
+                        viab.seed.emerged, 
+                        viab.seed.surv1,
+                        recruits),
+               names_to = "stage", values_to = "number") %>%
+  mutate(stage = as.factor(stage)) %>%
+  mutate(stage = recode(stage, 
+                        "crop" = "Initial crop",
+                        "fru.cons" = "Fruits consumed",
+                        "fru.disp" = "Seeds escaping avian predation",
+                        "fru.viab.disp" = "Viable seeds dispersed",
+                        "viab.seed.surv.pred" = "Seeds escaping rodent predation",
+                        "viab.seed.emerged" = "Seedlings emerging",
+                        "viab.seed.surv1" = "Seedlings surviving 1st summer",
+                        "recruits" = "Seedlings surviving 2nd summer")) %>%
+  mutate(stage = factor(stage, 
+                        levels = c("Initial crop",
+                                   "Fruits consumed",
+                                   "Seeds escaping avian predation",
+                                   "Viable seeds dispersed",
+                                   "Seeds escaping rodent predation",
+                                   "Seedlings emerging",
+                                   "Seedlings surviving 1st summer",
+                                   "Seedlings surviving 2nd summer"))) %>%
+  left_join(bird_grouping) 
+```
+
+
+Aggregate by bird families:
+
+```{r}
+propagules.bird.family <- bird.data.plot %>% 
+  select(-c(bird_size_beh, bird_common)) %>%
+  group_by(bird_family, bird_sp, stage) %>%
+  mutate(iter = c(1:1000)) %>%
+  group_by(bird_family, stage, iter) %>%
+  summarise(number = sum(number)) %>%
+  filter(!bird_family %in% c("Acrocephalidae", "Columbidae", "Laniidae", "Paridae")) %>%
+  mutate(number = ifelse(stage == "Initial crop", crop_available, number)) %>%
+  mutate(bird_family = factor(bird_family,
+                              levels = c("Sylviidae", "Muscicapidae",
+                                         "Turdidae", "Sturnidae",
+                                         "Corvidae", "Fringillidae")))
+
+propagules.bird.family.sum <- propagules.bird.family %>%
+  group_by(bird_family, stage) %>%
+  summarise(number = median(number))
+
+propagules.bird.family.sum %>% print(n = "inf")
+```
+
+
+```{r, fig.height=5, fig.width=9}
+pd_birds <- position_dodge(0.3)
+
+ggplot(propagules.bird.family, 
+       aes(y = number, x = stage, color = bird_family, fill = bird_family)) + 
+  stat_lineribbon(aes(group = bird_family), 
+                  position = pd_birds, .width = 0, size = 0.6) +
+  stat_pointinterval(.width = 0.80, point_size = 3, alpha = 0.7, position = pd_birds, size = 0.6) +
+  scale_color_viridis_d() +
+  scale_fill_viridis_d() +
+  scale_y_log10(breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000, 1000000), 
+                labels = scales::comma) +
+  labs(y = "Number of propagules",
+       x = NULL,
+       color = "Bird family:",
+       fill = "Bird family:") +
+  theme(panel.border = element_rect(fill = NA, color = "black"),
+        panel.grid.minor = element_blank(),
+        legend.position = "none")+
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
+  ggrepel::geom_text_repel(data = propagules.bird.family.sum %>%
+              filter(stage == "Seedlings surviving 2nd summer"),
+            aes(x = stage, y = number, label = bird_family),
+            size = 3, nudge_x = 5, color = "black") +
+  expand_limits(x = c(3, 9.3))
+
+ggsave(here("figs/fig_birds_stage_transitions_80CI.pdf"), width = 9, height = 5)
+```

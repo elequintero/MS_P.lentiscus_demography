@@ -1,0 +1,87 @@
+---
+title: "Crop size and viability effects on dispersed seeds"
+author: "Elena Quintero"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(ggpubr)
+library(tidylog)
+library(patchwork)
+library(lme4)
+library(DHARMa)
+library(glmmTMB)
+
+theme_set(theme_bw())
+```
+
+```{r}
+data <- readRDS(here("data/propagules_by_plant.rds"))
+
+data.sum <- data %>%
+  group_by(id_plant) %>%
+  summarise(fru.cons = median(fru.cons),
+            fru.viab.cons = median(fru.viab.cons),
+            seeds.disp = median(fru.disp),
+            seeds.viab.disp = median(fru.viab.disp),
+            site = first(site),
+            crop = median(cropsize),
+            viab.p = median(viab)) %>%
+  mutate(p.cons = fru.cons / crop,
+         crop.viab = crop * viab.p,
+         seed.unviab.disp = seeds.disp-seeds.viab.disp)
+```
+
+```{r}
+# cols <- c("#FDAE61", "#4575b4")
+# cols <- c("#ffe090", "#79a3e6")
+colors <- c("any seed" = "#FDAE61", "viable" = "#4575b4")
+
+ggplot(data.sum, aes(x = crop)) + 
+  geom_point(aes(y = seeds.disp, shape = site, group = id_plant, color = "any seed"), 
+             alpha = 0.8, size = 3) +
+  geom_point(aes(y = seeds.viab.disp, shape = site, group = id_plant, color = "viable"), 
+             alpha = 0.8, size = 3) +
+  geom_smooth(aes(y = seeds.disp, color = "any seed"), method = "lm") +
+  geom_smooth(aes(y = seeds.viab.disp, color = "viable"), method = "lm",) +
+  scale_color_manual(values = colors ) +
+  theme(legend.position = c(.92, .22)) +
+  scale_x_log10() + 
+  scale_y_log10() +
+  labs(y = "Seeds dispersed", x = "Crop size",
+       shape = "Population:", color = "Seed type:")
+
+#ggsave(here("figs_code/fig_crop_vs_disp.pdf"), heigh = 5, width = 8)
+```
+
+## MODELS
+
+```{r}
+rounded.data <- data.sum %>%
+  mutate(seeds.disp = round(seeds.disp),
+         seeds.viab.disp = round(seeds.viab.disp))
+
+hist(rounded.data$seeds.disp)
+hist(rounded.data$seeds.viab.disp)
+```
+
+(poisson has overdispersion problems)
+
+Models using **cuadratic** negative binomial (nbinom2) distribution: 
+
+```{r}
+m1 <- glmmTMB(seeds.disp ~ log(crop) + site, family = nbinom2, rounded.data)
+summary(m1)
+plot(simulateResiduals(m1))
+
+
+m2 <- glmmTMB(seeds.viab.disp ~ log(crop) + site, family = nbinom2, rounded.data)
+summary(m2)
+plot(simulateResiduals(m2))
+
+parameters::parameters(m1)
+parameters::parameters(m2)
+```
+

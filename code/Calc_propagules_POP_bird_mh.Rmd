@@ -1,0 +1,270 @@
+---
+title: "Estimate recruitment by birds at each microhabitat in the whole population"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(ggdist)
+library(bayestestR)
+theme_set(theme_bw())
+```
+
+
+1. SEED ARRIVAL BY BIRD AT EACH MH:
+```{r}
+seed.rain.EP <- readRDS(here("data/seeds.mh.bird.rds"))
+glimpse(seed.rain.EP)
+```
+
+```{r}
+overall.seed.rain <- seed.rain.EP %>%
+    group_by(mh, bird_sp) %>%
+    mutate(iter = c(1:1000)) %>%
+    # group_by(mh, iter) %>%
+    # summarise(seeds.disp = sum(seeds, na.rm = TRUE)) %>%
+    group_by(iter) %>%
+    mutate(overall.seed.disp = sum(seeds.mh.bird))
+
+overall.seed.rain %>%
+  group_by(mh) %>%
+  summarise(median(overall.seed.disp))
+```
+
+
+```{r}
+seed.rain.mh <- seed.rain.EP %>%
+    group_by(mh, bird_sp) %>%
+    mutate(iter = c(1:1000)) %>%
+    group_by(mh, iter) %>%
+    summarise(seeds.disp = sum(seeds.mh.bird, na.rm = TRUE))
+
+seed.rain.mh %>%
+  group_by(mh) %>%
+  summarise(median(seeds.disp))
+
+seed.rain.bird <- seed.rain.EP %>%
+    group_by(mh, bird_sp) %>%
+    mutate(iter = c(1:1000)) %>%
+    group_by(bird_sp, iter) %>%
+    summarise(seeds.disp = sum(seeds.mh.bird, na.rm = TRUE))
+
+seed.rain.bird %>%
+  group_by(bird_sp) %>%
+  summarise(seeds.disp = median(seeds.disp)) %>% 
+  arrange(desc(seeds.disp))
+```
+This info is based on seeds collected in seed-traps (and extrapolated to other bird species)
+
+```{r}
+seed.rain.EP.wide <- overall.seed.rain %>% 
+  ungroup() %>%
+  select(mh, bird_sp, seeds.mh.bird, overall.seed.disp) %>%
+  pivot_wider(names_from = mh, values_from = seeds.mh.bird, values_fn = list) %>%
+  unnest(cols = c(FR, NF, OA, PL, PP)) %>%
+  arrange(bird_sp)
+```
+
+
+2. ADD P DISPERSE VIABLE SEED
+```{r}
+bird.pviab <- readRDS(here("data/bird.Pviab_IDs.rds")) %>%
+  arrange(bird_sp) %>%
+  select(bird_sp, viab)
+
+glimpse(bird.pviab)
+```
+
+
+MERGE BIRD INFO (DISPERSAL + VIAB)
+```{r}
+seed.rain.viab <- seed.rain.EP.wide %>%
+  cbind(viab = bird.pviab$viab) %>%
+  pivot_longer(cols = c(FR, NF, OA, PL, PP), values_to = "seed.arrival", names_to = "mh") %>%
+  mutate(viab.seeds.arrival = seed.arrival * viab)
+  
+glimpse(seed.rain.viab)
+```
+
+
+3. P. ESCAPE RODENT + EMERGE + SURVIVE
+```{r}
+mh_quality <- readRDS(here("data/mh.quality.rds"))  
+
+glimpse(mh_quality)
+```
+
+
+MERGE ALL
+```{r}
+n.mh.bird <- length(unique(seed.rain.viab$mh))*length(unique(seed.rain.viab$bird_sp))
+
+MH_bird_recruitment <- seed.rain.viab %>%
+  mutate(Prob.escape.rodent.pred = case_when(
+    mh == "FR" ~ rep(mh_quality$Prob.escaping.pred_FR, times = n.mh.bird),
+    mh == "NF" ~ rep(mh_quality$Prob.escaping.pred_NF, times = n.mh.bird),
+    mh == "OA" ~ rep(mh_quality$Prob.escaping.pred_OA, times = n.mh.bird),
+    mh == "PL" ~ rep(mh_quality$Prob.escaping.pred_PL, times = n.mh.bird),
+    mh == "PP" ~ rep(mh_quality$Prob.escaping.pred_PP, times = n.mh.bird)
+  )) %>%
+  mutate(Prob.emergence = case_when(
+    mh == "FR" ~ rep(mh_quality$Prob.emergence_FR, times = n.mh.bird),
+    mh == "NF" ~ rep(mh_quality$Prob.emergence_NF, times = n.mh.bird),
+    mh == "OA" ~ rep(mh_quality$Prob.emergence_OA, times = n.mh.bird),
+    mh == "PL" ~ rep(mh_quality$Prob.emergence_PL, times = n.mh.bird),
+    mh == "PP" ~ rep(mh_quality$Prob.emergence_PP, times = n.mh.bird)
+  )) %>%
+  mutate(Prob.survival1 = case_when(
+    mh == "FR" ~ rep(mh_quality$Prob.surv.1summer_FR, times = n.mh.bird),
+    mh == "NF" ~ rep(mh_quality$Prob.surv.1summer_NF, times = n.mh.bird),
+    mh == "OA" ~ rep(mh_quality$Prob.surv.1summer_OA, times = n.mh.bird),
+    mh == "PL" ~ rep(mh_quality$Prob.surv.1summer_PL, times = n.mh.bird),
+    mh == "PP" ~ rep(mh_quality$Prob.surv.1summer_PP, times = n.mh.bird)
+  )) %>%
+  mutate(Prob.survival2 = case_when(
+    mh == "FR" ~ rep(mh_quality$Prob.surv.2summer_FR, times = n.mh.bird),
+    mh == "NF" ~ rep(mh_quality$Prob.surv.2summer_NF, times = n.mh.bird),
+    mh == "OA" ~ rep(mh_quality$Prob.surv.2summer_OA, times = n.mh.bird),
+    mh == "PL" ~ rep(mh_quality$Prob.surv.2summer_PL, times = n.mh.bird),
+    mh == "PP" ~ rep(mh_quality$Prob.surv.2summer_PP, times = n.mh.bird)
+  )) %>%
+  arrange(mh, bird_sp) %>%
+  mutate(bird_sp = str_replace(bird_sp, " ", "_")) %>% 
+  relocate(mh, .before = everything()) %>%
+  relocate(viab, .after = seed.arrival) %>%
+  mutate(recruits.EP = seed.arrival * 
+           viab *
+           Prob.escape.rodent.pred *
+           Prob.emergence * 
+           Prob.survival1 *
+           Prob.survival2)
+
+glimpse(MH_bird_recruitment)
+
+MH_bird_recruitment %>% 
+  group_by(bird_sp, mh) %>% 
+  summarise_at("recruits.EP", median) %>% 
+  arrange(desc(recruits.EP))
+
+saveRDS(MH_bird_recruitment, here("data/propagules_by_bird_and_MH_general_EP.rds"))
+```
+
+
+```{r}
+MH_bird_propagules <- MH_bird_recruitment %>%
+  mutate(seeds.surv.pred = viab.seeds.arrival * Prob.escape.rodent.pred,
+         seedling.emer = seeds.surv.pred * Prob.emergence,
+         seedling.surv1 = seedling.emer * Prob.survival1,
+         seedling.surv2 = seedling.surv1 * Prob.survival2) #%>%
+#   mutate(check = seedling.surv2 == recruits.EP)
+# MH_bird_propagules %>% group_by(check) %>% count()
+
+glimpse(MH_bird_propagules)
+```
+
+
+Recruitment by MH:
+```{r}
+MH_pop_propagules <- MH_bird_propagules %>% 
+  dplyr::select(mh, bird_sp, 
+                overall.seed.disp,
+                seed.arrival, 
+                viab.seeds.arrival,
+                seeds.surv.pred,
+                seedling.emer,
+                seedling.surv1,
+                seedling.surv2) %>%
+  group_by(mh, bird_sp) %>%
+  mutate(iter = 1:1000) %>%
+  group_by(mh, iter) %>%
+  summarise(overall.seed.disp = first(overall.seed.disp),
+            seed.arrival = sum(seed.arrival),
+            viab.seeds.arrival = sum(viab.seeds.arrival),
+            seeds.surv.pred = sum(seeds.surv.pred),
+            seedling.emer = sum(seedling.emer), 
+            seedling.surv1 = sum(seedling.surv1),
+            seedling.surv2 = sum(seedling.surv2))
+
+#RECRUITS BY MH:
+MH_pop_propagules %>%
+  group_by(mh) %>%
+  summarise(median = median(seedling.surv2, na.rm = TRUE),
+            CI.0.05 = quantile(seedling.surv2, probs = 0.10, na.rm = TRUE),
+            CI.0.95 = quantile(seedling.surv2, probs = 0.90, na.rm = TRUE))
+
+saveRDS(MH_pop_propagules, here("data/propagules_by_MH_general_EP.rds"))
+```
+
+```{r}
+ggplot(MH_pop_propagules, aes(x = seedling.surv2, y = mh)) +
+  stat_dist_halfeye() + 
+  coord_cartesian(xlim = c(0, 390))
+```
+
+
+Recruits per every 1,000,000 seeds dispersed:
+```{r}
+MH_pop_propagules %>%
+  mutate(prob.rec = seedling.surv2/seed.arrival,
+         prob.rec.1.000.000 = seedling.surv2/seed.arrival*1000000) %>%
+  group_by(mh) %>%
+  summarise(median = median(prob.rec.1.000.000),
+            ci_eti = ci(prob.rec.1.000.000, method = "ETI", ci = 0.80))
+```
+
+
+
+Recruitment by bird:
+```{r}
+Bird_pop_propagules <- MH_bird_propagules %>%
+  dplyr::select(mh, bird_sp, 
+                seed.arrival, 
+                viab.seeds.arrival,
+                seeds.surv.pred,
+                seedling.emer,
+                seedling.surv1,
+                seedling.surv2) %>%
+  group_by(mh, bird_sp) %>%
+  mutate(iter = 1:1000) %>%
+  group_by(bird_sp, iter) %>%
+  summarise(seed.arrival = sum(seed.arrival),
+            viab.seeds.arrival = sum(viab.seeds.arrival),
+            seeds.surv.pred = sum(seeds.surv.pred),
+            seedling.emer = sum(seedling.emer), 
+            seedling.surv1 = sum(seedling.surv1),
+            seedling.surv2 = sum(seedling.surv2))
+
+#RECRUITS BY BIRD:
+Bird_pop_propagules %>%
+  group_by(bird_sp) %>%
+  summarise(recruits = median(seedling.surv2))%>%
+  arrange(desc(recruits)) %>%
+  print(n = "inf")
+
+saveRDS(Bird_pop_propagules, here("data/propagules_by_bird_general_EP.rds"))
+```
+
+
+TOTAL RECRUITS:
+```{r}
+Bird_pop_propagules %>%
+  group_by(iter) %>%
+  summarise(recruits = sum(seedling.surv2))%>%
+  summarise(median(recruits),
+            ci.80 = bayestestR::ci(recruits, ci = 0.80))
+```
+
+
+```{r}
+sessioninfo::session_info()
+```
+

@@ -1,0 +1,86 @@
+---
+title: "Stage transitions MH in the POPULATION"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(ggdist)
+
+theme_set(theme_minimal())
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+MH_trans <- readRDS(here("data/propagules_by_MH_general_EP.rds"))
+
+glimpse(MH_trans)
+```
+
+
+Provide mh color and give order and name to demographic stages
+```{r}
+mh_cols <- c("FR"="#8d0060", "PP"="#cadd79", "PL"="#7186ff", "NF"="#fd863e", "OA"="#843600")
+pd <- position_dodge(0.4)
+
+MH.plot.data <- MH_trans %>%
+  dplyr::select(-iter) %>%
+  pivot_longer(cols = -1, values_to = "n_propagules", names_to = "trans") %>%
+  mutate(mh = factor(mh, levels = c("NF", "PL", "FR", "PP", "OA"))) %>%
+  mutate(trans = factor(trans, levels = c("overall.seed.disp",
+                                          "seed.arrival", 
+                                          "viab.seeds.arrival", 
+                                          "seeds.surv.pred", 
+                                          "seedling.emer", 
+                                          "seedling.surv1",
+                                          "seedling.surv2"))) %>%
+  mutate(trans = recode(trans, "overall.seed.disp" = "Dispersed seeds",
+                               "seed.arrival" = "Seeds arriving at each MH", 
+                               "viab.seeds.arrival" = "Viable seeds arriving", 
+                               "seeds.surv.pred" = "Seeds escaping rodent predation", 
+                               "seedling.emer" = "Seedlings emerged", 
+                               "seedling.surv1" = "Seedlings surviving 1st summer", 
+                               "seedling.surv2" = "Seedlings surviving 2nd summer"))
+
+
+MH.plot.data.sum <- MH.plot.data %>%
+  group_by(mh, trans) %>%
+  summarise(n_propagules = median(n_propagules))
+```
+
+
+```{r}
+ggplot(MH.plot.data, aes(x = trans, y = n_propagules, color = mh)) +
+  stat_lineribbon(aes(group = mh),  position = pd, .width = 0.01, size = 0.6) +
+  stat_pointinterval(.width = 0.80, point_size = 3, alpha = 0.7, position = pd, size = 0.6) +
+  scale_color_manual(values = mh_cols) + 
+  scale_y_log10(breaks = c(0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 
+                           10, 100, 1000, 10000, 100000, 1000000, 10000000),
+                limits = c(0.0001, 10000000),
+                labels = scales::comma) + 
+  theme(panel.border = element_rect(fill = NA, color = "black"),
+        panel.grid.minor = element_blank(),
+        legend.position = "none") +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
+  labs(y = "Number of propagules", x = NULL) +
+  ggrepel::geom_text_repel(data = MH.plot.data.sum %>%
+              filter(trans == "Seedlings surviving 2nd summer"),
+            aes(x = trans, y = n_propagules, label = mh),
+            size = 3, nudge_x = 5, color = "black") +
+  expand_limits(x = c(3, 5))
+
+ggsave(here("figs/fig_MH_stage_transitions_POP_80CI.pdf"), height = 5, width = 9)
+```
+
+With Adobe illustrator add "OA" tag and remove zeros after commas in big numbers.
+
+

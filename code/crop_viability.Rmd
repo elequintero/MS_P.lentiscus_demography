@@ -1,0 +1,142 @@
+---
+title: "Variation in crop viability data"
+author: "Elena Quintero"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(assertr)
+library(ggplot2)
+library(ggpubr)
+library(ggrepel)
+library(tidylog)
+library(RColorBrewer)
+```
+
+Load data:
+
+```{r}
+viab.data <- read_csv(here("data/viability_collection.csv")) %>%
+  mutate(plant_id = as.factor(plant_id))
+```
+
+
+### Viability changes along season in El Puntal year 2019-20:
+
+GLM test:
+
+```{r}
+library(glmmTMB)
+library(DHARMa)
+
+fit <- glmmTMB(cbind(r_sink+b_sink, r_float+b_float) ~ round + (1|plant_id), 
+               family = betabinomial,
+               data = subset(viab.data, year=="2019-20" & site=="puntal"))
+
+summary(fit)
+simulateResiduals(fit, plot=T)
+
+parameters::parameters(fit, exponentiate = FALSE)
+summary(effects::allEffects(fit))
+```
+
+```{r}
+viab.data %>%
+  filter(year == "2019-20" & site == "puntal") %>%
+  mutate(term = recode(round, "1" = "1.early", "2" = "2.mid", "3" = "3.late")) %>%
+  group_by(term) %>%
+  summarise(mean.viab.p = mean(viab.p, na.rm=T), 
+            viab.sd = sd(viab.p, na.rm=T),
+            viab.se = viab.sd/sqrt(n()),
+            n = n()) %>%
+  ggplot(aes(x = term, y = mean.viab.p, label = n)) + 
+  geom_point() + geom_text(hjust = -0.5, size = 3) +
+  #geom_errorbar(aes(ymin=mean.viab.p-viab.sd, ymax=mean.viab.p+viab.sd), width=0.1) +
+  geom_errorbar(aes(ymin = mean.viab.p - viab.se, ymax = mean.viab.p + viab.se), width = 0.1) +
+  theme_bw() + labs(x = "Collection term in 2019-20", y = "Mean viability", 
+                    caption = "Error bars denote 2*SE. 
+                    Numbers denote sample size (plants) considered per term")
+```
+
+
+## SUMMARISE DATA PER PLANT PER YEAR
+
+Create a data summary for the 3 round/terms of collection year 2019-20 - either mean for the 3 terms or aggregated terms.
+
+*For the 5 cases where we have wasp.p observations for dry fruits in different collections, I create a "wasp" variable, that preferentially selects the wasp counted over the total fruits (i.e. wasp dry, that also includes the counts in fresh). And a "wasp_ref" variable that indicates the total number of fruits that we need to refer when calculating percentages.*
+
+```{r}
+viab.sum <- viab.data %>%
+  group_by(site, year, plant_id) %>%
+  rename(wasp_fresh=wasp) %>%
+  mutate(wasp=ifelse(is.na(wasp_dry), wasp_fresh, wasp_dry)) %>%
+  mutate(wasp_ref=ifelse(is.na(wasp_dry), fresh_fruits, total_fruits)) %>%
+  summarise(viab.mean=mean(viab.p, na.rm=T), viab.sd=sd(viab.p, na.rm = T),
+            total_fruits=sum(fresh_fruits, na.rm=T)+sum(dry, na.rm=T),
+            fresh_fruits=sum(fresh_fruits, na.rm=T), 
+            dry_fruits=sum(dry, na.rm=T),
+            black_v=sum(b_sink, na.rm=T), 
+            black_u=sum(b_float, na.rm=T), 
+            red_v=sum(r_sink, na.rm=T), 
+            red_u=sum(r_float, na.rm=T), 
+            abort=sum(abort, na.rm = T), 
+            partheno=sum(partheno, na.rm = T),
+            wasp=sum(wasp, na.rm = T), wasp_ref=sum(wasp_ref, na.rm = T)) %>%
+  mutate(wasp.p=wasp/wasp_ref) %>%
+  mutate(viab.agg=(black_v+red_v)/fresh_fruits,
+         abort.p=(abort/(abort+partheno))*((1-viab.agg)-wasp.p),
+         partheno.p=(partheno/(abort+partheno))*((1-viab.agg)-wasp.p)) %>%
+  mutate(black_v_p=black_v/fresh_fruits, 
+         black_u_p=black_u/fresh_fruits, 
+         red_v_p=red_v/fresh_fruits, 
+         red_u_p=red_u/fresh_fruits)
+```
+
+Difference between using aggregated viability or mean viability:
+
+Mean viability summary:
+
+```{r}
+summary(viab.sum$viab.mean)
+sd(viab.sum$viab.mean, na.rm = T)
+```
+
+Aggregated viability summary:
+
+```{r}
+summary(viab.sum$viab.agg)
+sd(viab.sum$viab.agg, na.rm = T)
+```
+
+Comparison of estimated viability using mean and aggregated data:
+
+```{r}
+ggplot(filter(viab.sum, year=="2019-20" & site=="puntal"), 
+       aes(x=viab.mean, y=viab.agg, label=plant_id)) + 
+  geom_point() + theme_bw() +  geom_text_repel(size=3) +
+  scale_x_continuous(limits = c(0,1)) + scale_y_continuous(limits = c(0,1)) + 
+  geom_abline(slope=1) +
+  stat_cor()
+```
+
+Given there is no huge differences between mean and aggregated viability **it will be more convenient using pooled data, so there is stronger sample power**
+
+```{r}
+viab.final <- viab.sum %>% 
+  dplyr::select(-c(viab.mean, viab.sd)) %>% 
+  rename(viab.p=viab.agg)
+```
+
+Clean dataset:
+```{r}
+viab.for.analysis <- viab.final %>%
+  filter(year == "2019-20") %>%
+  mutate(black = black_v+black_u, 
+         red = red_v+red_u,
+         viab = black_v+red_v, 
+         non.viab = black_u+red_u) 
+
+write.csv(viab.for.analysis, here("data/crop_viab.csv"))
+```

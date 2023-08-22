@@ -1,0 +1,206 @@
+---
+title: "Calculate seed rain by bird species"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+
+```{r, warning=F, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(vegan)
+library(magrittr)
+library(ggdist)
+library(kableExtra)
+
+theme_set(theme_minimal())
+```
+
+
+Load bird's viability:
+
+```{r}
+bird.viab <- readRDS(here("data/bird.Pviab_IDs.rds")) %>%
+  mutate(bird_sp = str_replace(bird_sp, "_", " ")) %>%
+  select(-n_bird) %>% 
+  arrange(bird_sp)
+
+bird_viab_sum <- bird.viab %>%
+  group_by(bird_sp) %>%
+  summarise(viab = median(viab)) %>%
+  arrange(desc(viab)) 
+
+bird_viab_sum
+```
+
+
+Load mh cover at EP site:
+
+```{r}
+mh_cover <- read.csv(here("data/mh_cover.csv"))
+
+mh_cover %<>% select(mh = microhab, cover.p = cover.per) %>%
+  mutate(mh.cover.m2 = 41000 * cover.p)
+  
+# El Puntal area (Mancha del Rabicano) where we have worked measures around 41000 sq meters (4.1 hectares)
+mh_cover
+```
+
+
+Load posteriors from Bayes models:
+
+1. Number of seeds in rain at EP site:
+```{r}
+seeds.disp <- readRDS(here("data/Nseed.mh.cover.post.rds"))
+glimpse(seeds.disp)
+```
+
+2. Prob. that a seed falling in a specific MH comes from a specific bird_sp:
+
+```{r}
+p.bird.disp <- readRDS(here("data/Pbird.mh.post.rds"))
+glimpse(p.bird.disp)
+
+p.bird.disp %>% 
+  group_by(bird_sp) %>% 
+  summarise(med = median(Pbird)) %>% 
+  arrange(desc(med))
+```
+
+Calculate number of seeds dispersed by each bird to each MH:
+
+```{r}
+n.mh.bird <- length(unique(seeds.disp$mh))*length(unique(p.bird.disp$bird_sp)) 
+# 5 mh * 27 bird spp = 135
+
+n.seed.birds <- p.bird.disp %>% 
+  mutate(seeds = case_when(
+    mh == "PL" ~ rep(seeds.disp$seeds.m2[seeds.disp$mh == "PL"], times = n.mh.bird),
+    mh == "FR" ~ rep(seeds.disp$seeds.m2[seeds.disp$mh == "FR"], times = n.mh.bird),
+    mh == "NF" ~ rep(seeds.disp$seeds.m2[seeds.disp$mh == "NF"], times = n.mh.bird),
+    mh == "OA" ~ rep(seeds.disp$seeds.m2[seeds.disp$mh == "OA"], times = n.mh.bird),
+    mh == "PP" ~ rep(seeds.disp$seeds.m2[seeds.disp$mh == "PP"], times = n.mh.bird)
+  )) %>% 
+  mutate(seeds.mh.bird = seeds * Pbird)
+```
+
+Overview:
+
+```{r, fig.width=10, fig.height=8}
+n.seed.birds %>% 
+  group_by(bird_sp, mh) %>% 
+  summarise(seeds.disp = median(seeds.mh.bird)) %>%
+  arrange(desc(seeds.disp))
+
+ggplot(n.seed.birds, aes(y = bird_sp, x = seeds.mh.bird)) + 
+  stat_pointinterval() + 
+  facet_wrap(~mh, scales = "free")
+```
+
+Save dataset:
+
+```{r}
+saveRDS(n.seed.birds, here("data/seeds.mh.bird.rds"))
+```
+
+
+Now using this data I select only bird species found in DNA-barcoded feces and sum the total number of seeds contributed by each bird species (sum all MHs), and then multiply by their prob. to disperse a viable seed:
+
+```{r}
+glimpse(n.seed.birds)
+
+bc <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
+
+birds_only_cams <- setdiff(unique(n.seed.birds$bird_sp), unique(bc$bird_sp)) 
+#remove bird species not present in seed rain, but present in cameras
+birds_only_cams
+
+total.bird.mh <- n.seed.birds %>%
+  select(bird_sp, mh, seeds.mh.bird) %>%
+  pivot_wider(names_from = mh, values_from = seeds.mh.bird, values_fn = list) %>%
+  tidyr::unnest(cols = c(FR, NF, OA, PL, PP)) %>%
+  rowwise() %>%
+  mutate(total.seeds.bird = sum(cols = c(FR, NF, OA, PL, PP))) %>%
+  arrange(bird_sp) %>%
+  cbind(viab = bird.viab$viab) %>% # add p disperse a viab seed 
+  mutate(total.viab.seeds.bird = total.seeds.bird * viab) %>% 
+  filter(!bird_sp %in% birds_only_cams) #remove species not seen in rain
+
+head(total.bird.mh)
+```
+
+Function to calculate PROPORTION of contribution to seed rain:
+```{r}
+seed.rain.bird.func <- function(dataset, var_col) {
+  dataset %>%
+  group_by(bird_sp) %>%
+  mutate(iter = c(1:1000)) %>%
+  group_by(iter) %>%
+  mutate(total.seeds = sum({{var_col}})) %>% #get total number of seeds dispersed per iteration
+  ungroup() %>%
+  mutate(p.disp = {{var_col}} / total.seeds)
+}
+```
+
+Using any seed:
+```{r}
+cont.seed.rain <- seed.rain.bird.func(total.bird.mh, total.seeds.bird)
+
+cont.seed.rain.sum <- cont.seed.rain %>% 
+  group_by(bird_sp) %>% 
+  summarise(median.p.disp = median(p.disp)) %>% 
+  arrange(desc(median.p.disp))
+
+sum(cont.seed.rain.sum$median.p.disp) #median proportions closely add up to 1 -good
+```
+
+Using only viable seeds:
+```{r}
+cont.viab.seed.rain <- seed.rain.bird.func(total.bird.mh, total.viab.seeds.bird)
+
+cont.viab.seed.rain.sum <- cont.viab.seed.rain %>% 
+  group_by(bird_sp) %>% 
+  summarise(median.p.disp.viab = median(p.disp)) %>% 
+  arrange(desc(median.p.disp.viab))
+
+sum(cont.viab.seed.rain.sum$median.p.disp.viab) #median proportions closely add up to 1 -good
+```
+
+Merge both datasets and clean:
+```{r}
+bird.seed.rain <- cont.seed.rain %>% 
+  select(bird_sp, 
+         total.seeds.bird,
+         total.seeds,
+         p.disp, 
+         bird.viab = viab,
+         total.viab.seeds.bird) %>%
+  cbind(total.viab.seeds = cont.viab.seed.rain$total.seeds,
+        p.disp.viab = cont.viab.seed.rain$p.disp)
+
+head(bird.seed.rain)
+
+saveRDS(bird.seed.rain, here("data/n.seeds.birds.EP.site.rds"))
+```
+
+
+Contribution to seed dispersal:
+```{r}
+ggplot(bird.seed.rain, aes(y = bird_sp)) + 
+  stat_pointinterval(aes(x=p.disp), color = "blue", point_size = 3, alpha = 0.5) +
+  stat_pointinterval(aes(x=p.disp.viab), color = "orange", point_size = 3, alpha = 0.5) +
+  labs(subtitle = "Proportion of seed dispersal", x = NULL, y = NULL,
+       caption = "Blue is any seed. Orange only VIABLE seeds")
+```
+
+```{r}
+sessioninfo::session_info()
+```
+

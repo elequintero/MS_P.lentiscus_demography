@@ -1,0 +1,136 @@
+---
+title: "Stage transitions for individual plants"
+author: "Elena Quintero"
+date: '2022-06-21'
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(ggdist)
+library(ggpubr)
+library(tidylog)
+
+theme_set(theme_minimal())
+```
+
+
+Read data:
+```{r}
+plants.EP <- readRDS(here("data/propagules_by_plant_EP.rds")) #%>% mutate(site = "EP_corrected")
+plants.LM <- readRDS(here("data/propagules_by_plant.rds")) %>% filter(site == "Madronas")
+
+plants <- rbind(plants.EP, plants.LM)
+```
+
+Summarise data:
+```{r}
+plant.data.sum <- plants %>%
+  group_by(site, id_plant) %>%
+  summarise(site = first(site), 
+            cropsize = median(cropsize),
+            viab = median(viab),
+            fru.cons = median(fru.cons),
+            fru.viab.cons = median(fru.viab.cons),
+            disp.seeds = median(fru.disp),
+            disp.seeds.viab = median(fru.viab.disp),
+            seed.surv.pred = median(viab.seed.surv.pred),
+            sdlng.emer = median(viab.seed.emerged),
+            sdlng.surv1 = median(viab.seed.surv1),
+            recruits = median(recruits)) %>%
+  mutate(cropsize.viab = cropsize * viab)
+
+head(plant.data.sum)
+```
+
+Boxplot for stage transition:
+
+1. prepare dataset
+```{r}
+plant.data.sum.plot <- plant.data.sum %>% 
+  select(-c(cropsize.viab, fru.viab.cons)) %>%
+  pivot_longer(cols = c(cropsize, 
+                        fru.cons, 
+                        disp.seeds,
+                        disp.seeds.viab, 
+                        seed.surv.pred, 
+                        sdlng.emer, 
+                        sdlng.surv1, 
+                        recruits),
+               names_to = "stage", values_to = "number") %>%
+  mutate(stage = as.factor(stage)) %>%
+  mutate(stage = recode(stage, 
+                        "cropsize" = "Fruit crop",
+                        "fru.cons" = "Fruits consumed",
+                        "disp.seeds" = "Fruits escaping pre-dispersal predation",
+                        "disp.seeds.viab" = "Viable seeds dispersed",
+                        "seed.surv.pred" = "Seeds escaping post-dispersal predation",
+                        "sdlng.emer" = "Seeds emerging",
+                        "sdlng.surv1" = "Seeds surviving 1st summer",
+                        "recruits" = "Seeds surviving 2nd summer")) %>%
+  mutate(stage = factor(stage, 
+                        levels = c("Fruit crop",
+                                   "Fruits consumed",
+                                   "Fruits escaping pre-dispersal predation",
+                                   "Viable seeds dispersed",
+                                   "Seeds escaping post-dispersal predation",
+                                   "Seeds emerging",
+                                   "Seeds surviving 1st summer",
+                                   "Seeds surviving 2nd summer"))) %>%
+  mutate(inference1 = ifelse(site == "Madronas" & 
+                               stage %in% c("Seeds escaping post-dispersal predation",
+                                            "Seeds emerging",
+                                            "Seeds surviving 1st summer",
+                                            "Seeds surviving 2nd summer"),
+                            "yes", "no")) %>%
+  mutate(inference2 = ifelse(site == "Madronas" & 
+                               stage %in% c("Viable seeds dispersed",
+                                            "Seeds escaping post-dispersal predation",
+                                            "Seeds emerging",
+                                            "Seeds surviving 1st summer",
+                                            "Seeds surviving 2nd summer"),
+                            "yes", "no")) 
+
+glimpse(plant.data.sum.plot)
+
+```
+
+
+
+3. graph
+```{r, fig.width = 10, fig.height = 6}
+pd <- position_dodge(0.6)
+cols <- c("#FDAE61", "#4575b4", "#ffe090")
+
+
+
+ggplot(plant.data.sum.plot, aes(y = number, x = stage)) + 
+  geom_line(aes(group = id_plant, 
+                color = interaction(site, inference2)), 
+            position = pd, alpha = 0.3) + 
+  geom_point(aes(group = id_plant, color = interaction(site, inference1)), 
+             alpha = 0.8, position = pd, size = 2) + 
+  scale_y_log10(n.breaks = 10, 
+                labels = scales::comma,
+                limits = c(0.0001, 200000)) +
+  scale_color_manual(values = cols) + 
+  labs(y = "Number of propagules",
+       x = NULL,
+       color = "Population:") +                               
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+  theme(legend.position = c(.85, 0.85),
+        panel.border = element_rect(fill = NA, color = "black"),
+        panel.grid.minor = element_blank()) 
+```
+
+
+```{r}
+ggsave(here("figs/fig_plants_stage_transitions.pdf"), height = 5, width = 9)
+```
+

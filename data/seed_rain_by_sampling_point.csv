@@ -1,0 +1,384 @@
+mh_id,bird_sp,site,mh,sample_effort,n_seeds,n_seed_m2,sp_under,X_coord,Y_coord,length
+301,Erithacus rubecula,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4464353,36.9660322,NA
+301,Sylvia melanocephala,Puntal,PL,0.22,13,59.09090909090909,Pistacia lentiscus,-6.4464353,36.9660322,NA
+301,Turdus merula,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4464353,36.9660322,NA
+301,NA,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.4464353,36.9660322,NA
+302,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4466999,36.9661981,NA
+302,Erithacus rubecula,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4466999,36.9661981,NA
+302,Luscinia megarhynchos,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4466999,36.9661981,NA
+302,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4466999,36.9661981,NA
+302,Sylvia melanocephala,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.4466999,36.9661981,NA
+302,NA,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4466999,36.9661981,NA
+303,Erithacus rubecula,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4457887,36.9657444,NA
+303,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4457887,36.9657444,NA
+304,Chloris chloris,Puntal,PL,0.44,7,15.909090909090908,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Erithacus rubecula,Puntal,PL,0.44,21,47.72727272727273,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Phoenicurus phoenicurus,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Sturnus unicolor,Puntal,PL,0.44,4,9.090909090909092,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Sylvia hortensis,Puntal,PL,0.44,2,4.545454545454546,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Sylvia melanocephala,Puntal,PL,0.44,20,45.45454545454545,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Sylvia undata,Puntal,PL,0.44,2,4.545454545454546,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,Turdus merula,Puntal,PL,0.44,24,54.54545454545455,Pistacia lentiscus,-6.4457236,36.9655828,NA
+304,NA,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.4457236,36.9655828,NA
+305,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4455794,36.9656368,NA
+305,Erithacus rubecula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4455794,36.9656368,NA
+305,Sylvia melanocephala,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4455794,36.9656368,NA
+306,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4452676,36.9656848,NA
+306,Cyanopica cooki,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4452676,36.9656848,NA
+306,Erithacus rubecula,Puntal,PL,0.22,12,54.54545454545455,Pistacia lentiscus,-6.4452676,36.9656848,NA
+306,Sylvia melanocephala,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.4452676,36.9656848,NA
+306,NA,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.4452676,36.9656848,NA
+307,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454177,36.9658618,NA
+307,Erithacus rubecula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454177,36.9658618,NA
+307,Sylvia melanocephala,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454177,36.9658618,NA
+307,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454177,36.9658618,NA
+308,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4453657,36.9657131,NA
+308,Erithacus rubecula,Puntal,PL,0.22,27,122.72727272727273,Pistacia lentiscus,-6.4453657,36.9657131,NA
+308,Sylvia melanocephala,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4453657,36.9657131,NA
+309,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445279,36.9655276,NA
+309,Erithacus rubecula,Puntal,PL,0.22,14,63.63636363636363,Pistacia lentiscus,-6.445279,36.9655276,NA
+309,Sylvia melanocephala,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445279,36.9655276,NA
+310,Erithacus rubecula,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.445324,36.9653638,NA
+310,Sylvia melanocephala,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.445324,36.9653638,NA
+311,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4454804,36.9653452,NA
+311,Sylvia melanocephala,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4454804,36.9653452,NA
+311,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454804,36.9653452,NA
+312,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Erithacus rubecula,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Sturnus unicolor,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Sylvia atricapilla,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Sylvia borin,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Sylvia communis,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,Sylvia melanocephala,Puntal,PL,0.22,14,63.63636363636363,Pistacia lentiscus,-6.445677,36.9646322,NA
+312,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445677,36.9646322,NA
+313,Erithacus rubecula,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.446062,36.9647111,NA
+313,Saxicola rubicola,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.446062,36.9647111,NA
+313,Sylvia melanocephala,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.446062,36.9647111,NA
+314,Chloris chloris,Puntal,PL,0.44,2,4.545454545454546,Pistacia lentiscus,-6.4462849,36.9644358,NA
+314,Erithacus rubecula,Puntal,PL,0.44,35,79.54545454545455,Pistacia lentiscus,-6.4462849,36.9644358,NA
+314,Sturnus unicolor,Puntal,PL,0.44,3,6.818181818181818,Pistacia lentiscus,-6.4462849,36.9644358,NA
+314,Sylvia melanocephala,Puntal,PL,0.44,16,36.36363636363637,Pistacia lentiscus,-6.4462849,36.9644358,NA
+314,Sylvia undata,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.4462849,36.9644358,NA
+314,Turdus merula,Puntal,PL,0.44,2,4.545454545454546,Pistacia lentiscus,-6.4462849,36.9644358,NA
+315,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4460781,36.9643791,NA
+315,Sylvia melanocephala,Puntal,PL,0.22,16,72.72727272727273,Pistacia lentiscus,-6.4460781,36.9643791,NA
+315,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4460781,36.9643791,NA
+316,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4462629,36.9647623,NA
+316,Sylvia melanocephala,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.4462629,36.9647623,NA
+317,Erithacus rubecula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4457802,36.9650922,NA
+317,Sylvia melanocephala,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4457802,36.9650922,NA
+318,Chloris chloris,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4456448,36.9652256,NA
+318,Erithacus rubecula,Puntal,PL,0.22,18,81.81818181818181,Pistacia lentiscus,-6.4456448,36.9652256,NA
+318,Sylvia communis,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4456448,36.9652256,NA
+318,Sylvia melanocephala,Puntal,PL,0.22,11,50,Pistacia lentiscus,-6.4456448,36.9652256,NA
+318,NA,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4456448,36.9652256,NA
+319,Erithacus rubecula,Puntal,PL,0.22,11,50,Pistacia lentiscus,-6.445606,36.965501,NA
+319,Pyrrhula pyrrhula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445606,36.965501,NA
+319,Sylvia melanocephala,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.445606,36.965501,NA
+319,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445606,36.965501,NA
+319,NA,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.445606,36.965501,NA
+320,Chloris chloris,Puntal,PL,0.44,4,9.090909090909092,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Erithacus rubecula,Puntal,PL,0.44,24,54.54545454545455,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Fringilla coelebs,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Phoenicurus phoenicurus,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Sylvia atricapilla,Puntal,PL,0.44,2,4.545454545454546,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Sylvia melanocephala,Puntal,PL,0.44,4,9.090909090909092,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Sylvia undata,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.446655,36.965437,NA
+320,Turdus merula,Puntal,PL,0.44,5,11.363636363636363,Pistacia lentiscus,-6.446655,36.965437,NA
+320,NA,Puntal,PL,0.44,3,6.818181818181818,Pistacia lentiscus,-6.446655,36.965437,NA
+321,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4468212,36.9652785,NA
+321,Erithacus rubecula,Puntal,PL,0.22,9,40.90909090909091,Pistacia lentiscus,-6.4468212,36.9652785,NA
+321,Sylvia atricapilla,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4468212,36.9652785,NA
+321,Sylvia melanocephala,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.4468212,36.9652785,NA
+321,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4468212,36.9652785,NA
+322,Erithacus rubecula,Puntal,PL,0.22,19,86.36363636363636,Pistacia lentiscus,-6.4466821,36.9651221,NA
+322,Sylvia atricapilla,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4466821,36.9651221,NA
+322,Sylvia melanocephala,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4466821,36.9651221,NA
+322,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4466821,36.9651221,NA
+323,Erithacus rubecula,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,Phoenicurus phoenicurus,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,Saxicola rubicola,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,Sylvia melanocephala,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,Sylvia undata,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,Turdus merula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4459763,36.9650225,NA
+323,NA,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4459763,36.9650225,NA
+324,Erithacus rubecula,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.4463152,36.9652821,NA
+324,Sylvia communis,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4463152,36.9652821,NA
+324,Sylvia melanocephala,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4463152,36.9652821,NA
+325,Erithacus rubecula,Puntal,PL,0.22,13,59.09090909090909,Pistacia lentiscus,-6.4462464,36.9655517,NA
+325,Sylvia communis,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4462464,36.9655517,NA
+325,Sylvia melanocephala,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4462464,36.9655517,NA
+325,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4462464,36.9655517,NA
+326,Chloris chloris,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Ficedula hypoleuca,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Sylvia hortensis,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Sylvia melanocephala,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,Turdus merula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4459194,36.9656001,NA
+326,NA,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4459194,36.9656001,NA
+327,Cyanopica cooki,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,Erithacus rubecula,Puntal,PL,0.22,13,59.09090909090909,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,Phoenicurus phoenicurus,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,Sylvia melanocephala,Puntal,PL,0.22,15,68.18181818181819,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,Turdus merula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4458679,36.9652232,NA
+327,NA,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4458679,36.9652232,NA
+329,Erithacus rubecula,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4455066,36.9649852,NA
+329,Sylvia melanocephala,Puntal,PL,0.22,12,54.54545454545455,Pistacia lentiscus,-6.4455066,36.9649852,NA
+329,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4455066,36.9649852,NA
+330,Erithacus rubecula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445291,36.9650264,NA
+330,Sylvia cantillans,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.445291,36.9650264,NA
+330,Sylvia melanocephala,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.445291,36.9650264,NA
+331,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4455509,36.9647392,NA
+331,Sylvia atricapilla,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4455509,36.9647392,NA
+331,Sylvia melanocephala,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4455509,36.9647392,NA
+331,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4455509,36.9647392,NA
+332,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4457394,36.9652808,NA
+332,Erithacus rubecula,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.4457394,36.9652808,NA
+332,Sylvia hortensis,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.4457394,36.9652808,NA
+332,Sylvia melanocephala,Puntal,PL,0.22,8,36.36363636363637,Pistacia lentiscus,-6.4457394,36.9652808,NA
+332,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4457394,36.9652808,NA
+332,Turdus merula,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4457394,36.9652808,NA
+334,Erithacus rubecula,Puntal,PL,0.22,11,50,Pistacia lentiscus,-6.446223,36.9644299,NA
+334,Sylvia melanocephala,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.446223,36.9644299,NA
+334,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.446223,36.9644299,NA
+335,Erithacus rubecula,Puntal,PL,0.22,8,36.36363636363637,Pistacia lentiscus,-6.4461863,36.9647039,NA
+335,Saxicola rubicola,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4461863,36.9647039,NA
+335,Sylvia communis,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4461863,36.9647039,NA
+335,Sylvia melanocephala,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.4461863,36.9647039,NA
+335,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4461863,36.9647039,NA
+336,Chloris chloris,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.447233,36.96545,NA
+336,Erithacus rubecula,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.447233,36.96545,NA
+336,Sylvia melanocephala,Puntal,PL,0.22,2,9.090909090909092,Pistacia lentiscus,-6.447233,36.96545,NA
+336,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.447233,36.96545,NA
+337,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Cyanopica cooki,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Erithacus rubecula,Puntal,PL,0.22,8,36.36363636363637,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Sylvia melanocephala,Puntal,PL,0.22,9,40.90909090909091,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4474132,36.9654379,NA
+337,Turdus merula,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.4474132,36.9654379,NA
+338,Chloris chloris,Puntal,PL,0.44,7,15.909090909090908,Pistacia lentiscus,-6.4465958,36.9647493,NA
+338,Erithacus rubecula,Puntal,PL,0.44,15,34.09090909090909,Pistacia lentiscus,-6.4465958,36.9647493,NA
+338,Phoenicurus phoenicurus,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.4465958,36.9647493,NA
+338,Sylvia melanocephala,Puntal,PL,0.44,6,13.636363636363637,Pistacia lentiscus,-6.4465958,36.9647493,NA
+338,NA,Puntal,PL,0.44,1,2.272727272727273,Pistacia lentiscus,-6.4465958,36.9647493,NA
+339,Erithacus rubecula,Puntal,PL,0.22,3,13.636363636363637,Pistacia lentiscus,-6.4468479,36.9646794,NA
+340,Erithacus rubecula,Puntal,PL,0.22,6,27.272727272727273,Pistacia lentiscus,-6.446854,36.9649717,NA
+340,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.446854,36.9649717,NA
+340,Sylvia melanocephala,Puntal,PL,0.22,7,31.818181818181817,Pistacia lentiscus,-6.446854,36.9649717,NA
+340,NA,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.446854,36.9649717,NA
+382,Chloris chloris,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4470845,36.964831,NA
+382,Erithacus rubecula,Puntal,PL,0.22,4,18.181818181818183,Pistacia lentiscus,-6.4470845,36.964831,NA
+382,Sylvia melanocephala,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4470845,36.964831,NA
+383,Erithacus rubecula,Puntal,PL,0.22,5,22.727272727272727,Pistacia lentiscus,-6.4454992,36.9648526,NA
+383,Sylvia atricapilla,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454992,36.9648526,NA
+383,Sylvia melanocephala,Puntal,PL,0.22,13,59.09090909090909,Pistacia lentiscus,-6.4454992,36.9648526,NA
+383,Sylvia undata,Puntal,PL,0.22,1,4.545454545454546,Pistacia lentiscus,-6.4454992,36.9648526,NA
+FR1,Erithacus rubecula,Puntal,FR,0.168,9,53.57142857142857,Olea europaea,-6.4454885,36.9649267,NA
+FR1,Phoenicurus phoenicurus,Puntal,FR,0.168,2,11.904761904761903,Olea europaea,-6.4454885,36.9649267,NA
+FR1,Sylvia melanocephala,Puntal,FR,0.168,12,71.42857142857143,Olea europaea,-6.4454885,36.9649267,NA
+FR1,Turdus merula,Puntal,FR,0.168,1,5.952380952380952,Olea europaea,-6.4454885,36.9649267,NA
+FR10,Erithacus rubecula,Puntal,FR,0.168,4,23.809523809523807,Myrtus communis,-6.4468966,36.9658289,NA
+FR10,Phoenicurus phoenicurus,Puntal,FR,0.168,1,5.952380952380952,Myrtus communis,-6.4468966,36.9658289,NA
+FR10,Sylvia melanocephala,Puntal,FR,0.168,3,17.857142857142858,Myrtus communis,-6.4468966,36.9658289,NA
+FR11,Erithacus rubecula,Puntal,FR,0.168,3,17.857142857142858,Olea europaea,-6.4466033,36.965794,NA
+FR11,Sylvia atricapilla,Puntal,FR,0.168,1,5.952380952380952,Olea europaea,-6.4466033,36.965794,NA
+FR11,Sylvia melanocephala,Puntal,FR,0.168,4,23.809523809523807,Olea europaea,-6.4466033,36.965794,NA
+FR12,Erithacus rubecula,Puntal,FR,0.168,1,5.952380952380952,Phylirea angustifolia,-6.4461414,36.9655056,NA
+FR12,Sylvia melanocephala,Puntal,FR,0.168,8,47.61904761904761,Phylirea angustifolia,-6.4461414,36.9655056,NA
+FR13,Erithacus rubecula,Puntal,FR,0.168,4,23.809523809523807,"Phylirea angustifolia, Asparagus aphyllus",-6.4457639,36.9653791,NA
+FR13,Sylvia atricapilla,Puntal,FR,0.168,1,5.952380952380952,"Phylirea angustifolia, Asparagus aphyllus",-6.4457639,36.9653791,NA
+FR13,Sylvia melanocephala,Puntal,FR,0.168,2,11.904761904761903,"Phylirea angustifolia, Asparagus aphyllus",-6.4457639,36.9653791,NA
+FR13,Turdus merula,Puntal,FR,0.168,1,5.952380952380952,"Phylirea angustifolia, Asparagus aphyllus",-6.4457639,36.9653791,NA
+FR14,Erithacus rubecula,Puntal,FR,0.168,4,23.809523809523807,Phylirea angustifolia,-6.4458751,36.96557,NA
+FR14,Sylvia hortensis,Puntal,FR,0.168,1,5.952380952380952,Phylirea angustifolia,-6.4458751,36.96557,NA
+FR14,Sylvia melanocephala,Puntal,FR,0.168,5,29.76190476190476,Phylirea angustifolia,-6.4458751,36.96557,NA
+FR15,Erithacus rubecula,Puntal,FR,0.168,3,17.857142857142858,"Olea europaea, Asparagus aphyllus",-6.4462584,36.9643384,NA
+FR15,Phoenicurus phoenicurus,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4462584,36.9643384,NA
+FR15,Sylvia communis,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4462584,36.9643384,NA
+FR15,Sylvia melanocephala,Puntal,FR,0.168,8,47.61904761904761,"Olea europaea, Asparagus aphyllus",-6.4462584,36.9643384,NA
+FR15,Turdus philomelos,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4462584,36.9643384,NA
+FR2,Sylvia atricapilla,Puntal,FR,0.168,1,5.952380952380952,Daphne gnidium,-6.4454986,36.965401,NA
+FR2,Sylvia melanocephala,Puntal,FR,0.168,2,11.904761904761903,Daphne gnidium,-6.4454986,36.965401,NA
+FR3,Erithacus rubecula,Puntal,FR,0.168,5,29.76190476190476,Myrtus communis,-6.445962,36.9647082,NA
+FR3,Sturnus unicolor,Puntal,FR,0.168,1,5.952380952380952,Myrtus communis,-6.445962,36.9647082,NA
+FR3,Sylvia atricapilla,Puntal,FR,0.168,2,11.904761904761903,Myrtus communis,-6.445962,36.9647082,NA
+FR3,Sylvia melanocephala,Puntal,FR,0.168,19,113.09523809523809,Myrtus communis,-6.445962,36.9647082,NA
+FR3,Sylvia undata,Puntal,FR,0.168,1,5.952380952380952,Myrtus communis,-6.445962,36.9647082,NA
+FR3,Turdus merula,Puntal,FR,0.168,5,29.76190476190476,Myrtus communis,-6.445962,36.9647082,NA
+FR4,Erithacus rubecula,Puntal,FR,0.168,3,17.857142857142858,"Olea europaea, Asparagus aphyllus",-6.4469204,36.9650795,NA
+FR4,Sylvia communis,Puntal,FR,0.168,2,11.904761904761903,"Olea europaea, Asparagus aphyllus",-6.4469204,36.9650795,NA
+FR4,Sylvia melanocephala,Puntal,FR,0.168,18,107.14285714285714,"Olea europaea, Asparagus aphyllus",-6.4469204,36.9650795,NA
+FR4,Sylvia undata,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4469204,36.9650795,NA
+FR4,Turdus merula,Puntal,FR,0.168,2,11.904761904761903,"Olea europaea, Asparagus aphyllus",-6.4469204,36.9650795,NA
+FR5,Erithacus rubecula,Puntal,FR,0.168,2,11.904761904761903,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR5,Phoenicurus phoenicurus,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR5,Sylvia atricapilla,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR5,Sylvia hortensis,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR5,Sylvia melanocephala,Puntal,FR,0.168,6,35.714285714285715,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR5,Turdus merula,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Smilax aspera",-6.4457382,36.9652512,NA
+FR6,Erithacus rubecula,Puntal,FR,0.168,5,29.76190476190476,Phylirea angustifolia,-6.4459442,36.965317400000004,NA
+FR6,Sylvia atricapilla,Puntal,FR,0.168,3,17.857142857142858,Phylirea angustifolia,-6.4459442,36.965317400000004,NA
+FR6,Sylvia hortensis,Puntal,FR,0.168,2,11.904761904761903,Phylirea angustifolia,-6.4459442,36.965317400000004,NA
+FR6,Sylvia melanocephala,Puntal,FR,0.168,8,47.61904761904761,Phylirea angustifolia,-6.4459442,36.965317400000004,NA
+FR6,Turdus merula,Puntal,FR,0.168,4,23.809523809523807,Phylirea angustifolia,-6.4459442,36.965317400000004,NA
+FR7,Erithacus rubecula,Puntal,FR,0.168,21,124.99999999999999,"Olea europaea, Asparagus aphyllus",-6.4465742,36.9653783,NA
+FR7,Phoenicurus phoenicurus,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4465742,36.9653783,NA
+FR7,Sylvia atricapilla,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4465742,36.9653783,NA
+FR7,Sylvia melanocephala,Puntal,FR,0.168,1,5.952380952380952,"Olea europaea, Asparagus aphyllus",-6.4465742,36.9653783,NA
+FR7,NA,Puntal,FR,0.168,2,11.904761904761903,"Olea europaea, Asparagus aphyllus",-6.4465742,36.9653783,NA
+FR8,Erithacus rubecula,Puntal,FR,0.168,2,11.904761904761903,"Myrtus communis, Daphne gnidium, Smilax aspera",-6.4466247,36.9651909,NA
+FR8,Sylvia melanocephala,Puntal,FR,0.168,1,5.952380952380952,"Myrtus communis, Daphne gnidium, Smilax aspera",-6.4466247,36.9651909,NA
+FR8,Turdus merula,Puntal,FR,0.168,8,47.61904761904761,"Myrtus communis, Daphne gnidium, Smilax aspera",-6.4466247,36.9651909,NA
+FR8,Turdus philomelos,Puntal,FR,0.168,1,5.952380952380952,"Myrtus communis, Daphne gnidium, Smilax aspera",-6.4466247,36.9651909,NA
+FR8,NA,Puntal,FR,0.168,1,5.952380952380952,"Myrtus communis, Daphne gnidium, Smilax aspera",-6.4466247,36.9651909,NA
+FR9,Sylvia communis,Puntal,FR,0.168,1,5.952380952380952,Daphne gnidium,-6.4470682,36.9658009,NA
+FR9,Sylvia melanocephala,Puntal,FR,0.168,2,11.904761904761903,Daphne gnidium,-6.4470682,36.9658009,NA
+NF1,Erithacus rubecula,Puntal,NF,0.168,7,41.666666666666664,Erica scoparia,-6.4457745,36.9649263,NA
+NF1,Sylvia atricapilla,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457745,36.9649263,NA
+NF1,Sylvia communis,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457745,36.9649263,NA
+NF1,Sylvia melanocephala,Puntal,NF,0.168,26,154.76190476190476,Erica scoparia,-6.4457745,36.9649263,NA
+NF1,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457745,36.9649263,NA
+NF1,NA,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457745,36.9649263,NA
+NF10,Sylvia melanocephala,Puntal,NF,0.168,2,11.904761904761903,"Erica scoparia, Ulex parviflorus",-6.4453221,36.965683,NA
+NF11,Erithacus rubecula,Puntal,NF,0.168,5,29.76190476190476,Erica scoparia,-6.4458478,36.9657562,NA
+NF11,Sylvia melanocephala,Puntal,NF,0.168,8,47.61904761904761,Erica scoparia,-6.4458478,36.9657562,NA
+NF12,Erithacus rubecula,Puntal,NF,0.168,5,29.76190476190476,Erica scoparia,-6.4462531,36.9653358,NA
+NF12,Sylvia melanocephala,Puntal,NF,0.168,2,11.904761904761903,Erica scoparia,-6.4462531,36.9653358,NA
+NF13,Cyanopica cooki,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4467696,36.9649515,NA
+NF13,Erithacus rubecula,Puntal,NF,0.168,2,11.904761904761903,Erica scoparia,-6.4467696,36.9649515,NA
+NF13,Sylvia atricapilla,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4467696,36.9649515,NA
+NF13,Sylvia melanocephala,Puntal,NF,0.168,6,35.714285714285715,Erica scoparia,-6.4467696,36.9649515,NA
+NF14,Erithacus rubecula,Puntal,NF,0.168,1,5.952380952380952,Halimium halimifolium,-6.4472372,36.9655454,NA
+NF14,Sylvia melanocephala,Puntal,NF,0.168,3,17.857142857142858,Halimium halimifolium,-6.4472372,36.9655454,NA
+NF14,Sylvia undata,Puntal,NF,0.168,2,11.904761904761903,Halimium halimifolium,-6.4472372,36.9655454,NA
+NF14,NA,Puntal,NF,0.168,1,5.952380952380952,Halimium halimifolium,-6.4472372,36.9655454,NA
+NF15,Erithacus rubecula,Puntal,NF,0.168,2,11.904761904761903,Ulex parviflorus,-6.44671,36.96586,NA
+NF15,Sylvia melanocephala,Puntal,NF,0.168,4,23.809523809523807,Ulex parviflorus,-6.44671,36.96586,NA
+NF15,NA,Puntal,NF,0.168,1,5.952380952380952,Ulex parviflorus,-6.44671,36.96586,NA
+NF2,Erithacus rubecula,Puntal,NF,0.168,5,29.76190476190476,Erica scoparia,-6.4457854,36.9652353,NA
+NF2,Sylvia atricapilla,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457854,36.9652353,NA
+NF2,Sylvia cantillans,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457854,36.9652353,NA
+NF2,Sylvia melanocephala,Puntal,NF,0.168,12,71.42857142857143,Erica scoparia,-6.4457854,36.9652353,NA
+NF2,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4457854,36.9652353,NA
+NF2,Turdus merula,Puntal,NF,0.168,5,29.76190476190476,Erica scoparia,-6.4457854,36.9652353,NA
+NF3,Erithacus rubecula,Puntal,NF,0.168,6,35.714285714285715,Erica scoparia,-6.4466533,36.9653375,NA
+NF3,Sylvia melanocephala,Puntal,NF,0.168,8,47.61904761904761,Erica scoparia,-6.4466533,36.9653375,NA
+NF3,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4466533,36.9653375,NA
+NF4,Erithacus rubecula,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4466098,36.9651179,NA
+NF4,Sylvia melanocephala,Puntal,NF,0.168,2,11.904761904761903,Erica scoparia,-6.4466098,36.9651179,NA
+NF4,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4466098,36.9651179,NA
+NF5,Sylvia cantillans,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4462619,36.964906,NA
+NF5,Sylvia melanocephala,Puntal,NF,0.168,4,23.809523809523807,Erica scoparia,-6.4462619,36.964906,NA
+NF6,Sylvia melanocephala,Puntal,NF,0.168,1,5.952380952380952,Halimium halimifolium,-6.4467353,36.9661393,NA
+NF6,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Halimium halimifolium,-6.4467353,36.9661393,NA
+NF7,Erithacus rubecula,Puntal,NF,0.168,5,29.76190476190476,Erica scoparia,-6.4459122,36.9649781,NA
+NF7,Sylvia atricapilla,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4459122,36.9649781,NA
+NF7,Sylvia melanocephala,Puntal,NF,0.168,2,11.904761904761903,Erica scoparia,-6.4459122,36.9649781,NA
+NF7,Turdus merula,Puntal,NF,0.168,4,23.809523809523807,Erica scoparia,-6.4459122,36.9649781,NA
+NF8,Erithacus rubecula,Puntal,NF,0.168,2,11.904761904761903,Erica scoparia,-6.4461809,36.9646057,NA
+NF8,Sylvia melanocephala,Puntal,NF,0.168,13,77.38095238095238,Erica scoparia,-6.4461809,36.9646057,NA
+NF8,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4461809,36.9646057,NA
+NF9,Erithacus rubecula,Puntal,NF,0.168,4,23.809523809523807,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,Phoenicurus phoenicurus,Puntal,NF,0.168,3,17.857142857142858,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,Sylvia atricapilla,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,Sylvia cantillans,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,Sylvia melanocephala,Puntal,NF,0.168,17,101.19047619047619,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,Sylvia undata,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4458623,36.9647154,NA
+NF9,NA,Puntal,NF,0.168,1,5.952380952380952,Erica scoparia,-6.4458623,36.9647154,NA
+OA15,Turdus merula,Puntal,OA,118,3,0.025423728813559324,Open area,-6.44678302,36.9659237,117.619
+OA253,NA,Puntal,OA,403,9,0.022332506203473945,Open area,-6.4463944049999995,36.96509889,403.046
+OA267,NA,Puntal,OA,170,2,0.011764705882352941,Open area,-6.44612802,36.96502507,170.29
+OA275,Sylvia melanocephala,Puntal,OA,289,1,0.0034602076124567475,Open area,-6.44674459,36.96462019,288.718
+OA281,Cyanopica cooki,Puntal,OA,162,3,0.018518518518518517,Open area,-6.44557972,36.96485319,161.604
+OA281,Turdus merula,Puntal,OA,162,35,0.21604938271604937,Open area,-6.44557972,36.96485319,161.604
+OA295,Erithacus rubecula,Puntal,OA,174,1,0.005747126436781609,Open area,-6.446036980000001,36.96537833,173.773
+OA295,Sylvia melanocephala,Puntal,OA,174,1,0.005747126436781609,Open area,-6.446036980000001,36.96537833,173.773
+OA295,Turdus merula,Puntal,OA,174,51,0.29310344827586204,Open area,-6.446036980000001,36.96537833,173.773
+OA303,Alectoris rufa,Puntal,OA,179,2,0.0111731843575419,Open area,-6.44620096,36.96462228,178.604
+OA303,Turdus merula,Puntal,OA,179,43,0.24022346368715083,Open area,-6.44620096,36.96462228,178.604
+OA310,Turdus merula,Puntal,OA,183,13,0.07103825136612021,Open area,-6.44574969,36.964735,182.511
+OA317,Turdus merula,Puntal,OA,312,30,0.09615384615384616,Open area,-6.44595198,36.96464316,311.609
+OA317,Turdus philomelos,Puntal,OA,312,1,0.003205128205128205,Open area,-6.44595198,36.96464316,311.609
+OA323,Alectoris rufa,Puntal,OA,325,2,0.006153846153846154,Open area,-6.44624326,36.96465569,324.571
+OA323,Turdus merula,Puntal,OA,325,26,0.08,Open area,-6.44624326,36.96465569,324.571
+OA330,Turdus merula,Puntal,OA,132,23,0.17424242424242425,Open area,-6.44619764,36.96535018,131.537
+OA337,Turdus merula,Puntal,OA,334,25,0.0748502994011976,Open area,-6.44630248,36.96498831,334.258
+OA34,Erithacus rubecula,Puntal,OA,354,1,0.002824858757062147,Open area,-6.44611335,36.96510495,353.653
+OA351,Turdus merula,Puntal,OA,267,10,0.03745318352059925,Open area,-6.446046615,36.965297215,266.779
+OA364,Turdus merula,Puntal,OA,104,14,0.1346153846153846,Open area,-6.44584964,36.96530085,103.565
+PP1,Erithacus rubecula,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4451226,36.965041,NA
+PP1,Sylvia melanocephala,Puntal,PP,0.168,6,35.714285714285715,Pinus pinea,-6.4451226,36.965041,NA
+PP10,Erithacus rubecula,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4469718,36.9647106,NA
+PP10,Phoenicurus phoenicurus,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4469718,36.9647106,NA
+PP10,Sturnus unicolor,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4469718,36.9647106,NA
+PP10,Sylvia melanocephala,Puntal,PP,0.168,12,71.42857142857143,Pinus pinea,-6.4469718,36.9647106,NA
+PP10,Sylvia undata,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4469718,36.9647106,NA
+PP10,NA,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4469718,36.9647106,NA
+PP11,Erithacus rubecula,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4470545,36.964749,NA
+PP11,Phoenicurus phoenicurus,Puntal,PP,0.168,7,41.666666666666664,Pinus pinea,-6.4470545,36.964749,NA
+PP11,Sturnus unicolor,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4470545,36.964749,NA
+PP11,Sylvia melanocephala,Puntal,PP,0.168,8,47.61904761904761,Pinus pinea,-6.4470545,36.964749,NA
+PP11,Turdus merula,Puntal,PP,0.168,5,29.76190476190476,Pinus pinea,-6.4470545,36.964749,NA
+PP12,Erithacus rubecula,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4470774,36.9645018,NA
+PP12,Ficedula hypoleuca,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4470774,36.9645018,NA
+PP12,Phoenicurus phoenicurus,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4470774,36.9645018,NA
+PP12,Sylvia melanocephala,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4470774,36.9645018,NA
+PP13,Erithacus rubecula,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4460512,36.9647551,NA
+PP13,Saxicola rubicola,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460512,36.9647551,NA
+PP13,Sturnus unicolor,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460512,36.9647551,NA
+PP13,Sylvia melanocephala,Puntal,PP,0.168,9,53.57142857142857,Pinus pinea,-6.4460512,36.9647551,NA
+PP13,Sylvia undata,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460512,36.9647551,NA
+PP13,NA,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460512,36.9647551,NA
+PP14,Erithacus rubecula,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4457287,36.9650978,NA
+PP14,Luscinia megarhynchos,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4457287,36.9650978,NA
+PP14,Phoenicurus phoenicurus,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4457287,36.9650978,NA
+PP14,Sylvia atricapilla,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4457287,36.9650978,NA
+PP14,Sylvia communis,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4457287,36.9650978,NA
+PP14,Sylvia melanocephala,Puntal,PP,0.168,9,53.57142857142857,Pinus pinea,-6.4457287,36.9650978,NA
+PP15,Erithacus rubecula,Puntal,PP,0.168,7,41.666666666666664,Pinus pinea,-6.4457834,36.9643898,NA
+PP15,Sturnus unicolor,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4457834,36.9643898,NA
+PP15,Sylvia atricapilla,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4457834,36.9643898,NA
+PP15,Sylvia melanocephala,Puntal,PP,0.168,14,83.33333333333333,Pinus pinea,-6.4457834,36.9643898,NA
+PP2,Erithacus rubecula,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4456011,36.9645763,NA
+PP2,Phoenicurus phoenicurus,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4456011,36.9645763,NA
+PP2,Sturnus unicolor,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4456011,36.9645763,NA
+PP2,Sylvia atricapilla,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4456011,36.9645763,NA
+PP2,Sylvia melanocephala,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4456011,36.9645763,NA
+PP3,Erithacus rubecula,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Ficedula hypoleuca,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Fringilla coelebs,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Phoenicurus phoenicurus,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Sturnus unicolor,Puntal,PP,0.168,15,89.28571428571428,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Sylvia atricapilla,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Sylvia communis,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.445685,36.9646569,NA
+PP3,Sylvia melanocephala,Puntal,PP,0.168,11,65.47619047619047,Pinus pinea,-6.445685,36.9646569,NA
+PP4,Erithacus rubecula,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4457275,36.9651021,NA
+PP4,Sturnus unicolor,Puntal,PP,0.168,12,71.42857142857143,Pinus pinea,-6.4457275,36.9651021,NA
+PP4,Sylvia communis,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4457275,36.9651021,NA
+PP4,Sylvia melanocephala,Puntal,PP,0.168,7,41.666666666666664,Pinus pinea,-6.4457275,36.9651021,NA
+PP4,Turdus merula,Puntal,PP,0.168,11,65.47619047619047,Pinus pinea,-6.4457275,36.9651021,NA
+PP5,Cyanopica cooki,Puntal,PP,0.168,2,11.904761904761903,Quercus suber,-6.4472034,36.9655627,NA
+PP5,Erithacus rubecula,Puntal,PP,0.168,2,11.904761904761903,Quercus suber,-6.4472034,36.9655627,NA
+PP5,Muscicapa striata,Puntal,PP,0.168,1,5.952380952380952,Quercus suber,-6.4472034,36.9655627,NA
+PP5,Sylvia atricapilla,Puntal,PP,0.168,1,5.952380952380952,Quercus suber,-6.4472034,36.9655627,NA
+PP5,Sylvia melanocephala,Puntal,PP,0.168,18,107.14285714285714,Quercus suber,-6.4472034,36.9655627,NA
+PP6,Cyanopica cooki,Puntal,PP,0.168,3,17.857142857142858,Pinus pinea,-6.4470879,36.965858,NA
+PP6,Erithacus rubecula,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4470879,36.965858,NA
+PP6,Phoenicurus phoenicurus,Puntal,PP,0.168,4,23.809523809523807,Pinus pinea,-6.4470879,36.965858,NA
+PP6,Sylvia hortensis,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4470879,36.965858,NA
+PP6,Sylvia melanocephala,Puntal,PP,0.168,9,53.57142857142857,Pinus pinea,-6.4470879,36.965858,NA
+PP6,Turdus merula,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4470879,36.965858,NA
+PP7,Erithacus rubecula,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4463572,36.9644766,NA
+PP7,Sylvia communis,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4463572,36.9644766,NA
+PP7,Sylvia melanocephala,Puntal,PP,0.168,11,65.47619047619047,Pinus pinea,-6.4463572,36.9644766,NA
+PP7,NA,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4463572,36.9644766,NA
+PP8,Erithacus rubecula,Puntal,PP,0.168,5,29.76190476190476,Pinus pinea,-6.4460287,36.9647967,NA
+PP8,Luscinia megarhynchos,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460287,36.9647967,NA
+PP8,Sylvia melanocephala,Puntal,PP,0.168,10,59.52380952380952,Pinus pinea,-6.4460287,36.9647967,NA
+PP8,Sylvia undata,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460287,36.9647967,NA
+PP8,NA,Puntal,PP,0.168,1,5.952380952380952,Pinus pinea,-6.4460287,36.9647967,NA
+PP9,Erithacus rubecula,Puntal,PP,0.168,2,11.904761904761903,Pinus pinea,-6.4460771,36.9647889,NA
+PP9,Sylvia melanocephala,Puntal,PP,0.168,15,89.28571428571428,Pinus pinea,-6.4460771,36.9647889,NA

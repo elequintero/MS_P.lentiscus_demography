@@ -1,0 +1,136 @@
+---
+title: "Recruitment overview"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(ggplot2)
+library(ggdist)
+library(forcats)
+```
+
+```{r, message=F}
+recruitment_EP <- readRDS(here("data/propagules_by_plant_and_bird_EP.rds"))
+```
+
+
+Graph 'recruitment' by plant and bird species (Heatmap)
+
+```{r, fig.width=12, fig.height=6}
+#Add line for inserting marginal totals
+line <- c("bird_sp" = "TOTAL", "id_plant" = "TOTAL", "recruits" = 0)
+line_d <- as.data.frame(t(line)) %>% mutate(recruits = as.numeric(recruits))
+
+plot.data <- recruitment_EP %>% 
+  group_by(bird_sp, id_plant) %>%
+  mutate(recruits_per_10000_fruits_cons = recruits / fruits.consumed.sp*10000,
+         recruits_per_1000000_fruits_produced = recruits / (initcrop/1000000)) %>%
+  summarise(recruits = median(recruits_per_1000000_fruits_produced)) %>% #summarise posteriors in medians
+  mutate(bird_sp = str_replace(bird_sp, "_", " "), #correct Sylviids
+         bird_sp = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",
+                                   "Sylvia undata" = "Curruca undata",
+                                   "Sylvia communis" = "Curruca communis",
+                                   "Sylvia hortensis" = "Curruca hortensis",
+                                   "Sylvia cantillans" = "Curruca iberiae")) %>%
+  mutate(id_plant = as.factor(id_plant), bird_sp = as.factor(bird_sp)) %>%
+  filter(!recruits == 0) %>% #remove interactions that provide no recruits
+  ungroup() %>%
+  droplevels() %>%
+  complete(id_plant, bird_sp) %>% #get NA value for all interacions not taking place
+  rbind(line_d) %>%  #include marginal total line
+  group_by(bird_sp) %>% 
+  mutate(total_recruits_bird = sum(recruits, na.rm = T)) %>% #
+  group_by(id_plant) %>% 
+  mutate(total_recruits_plant = sum(recruits, na.rm = T))
+```
+
+Marginal totals:
+```{r}
+marginal_totals_birds <- plot.data %>%
+  group_by(bird_sp) %>%
+  summarise(total_recruits_bird = first(total_recruits_bird))
+
+marginal_totals_plants <- plot.data %>%
+  group_by(id_plant) %>%
+  summarise(total_recruits_plant = first(total_recruits_plant))
+
+sum(marginal_totals_birds$total_recruits_bird)
+sum(marginal_totals_plants$total_recruits_plant)
+```
+
+plot:
+```{r, fig.width=12, fig.height=6}
+ggplot(plot.data, aes(y = fct_reorder(bird_sp, total_recruits_bird),
+                      x = fct_reorder(id_plant, total_recruits_plant, .desc = T))) +
+  geom_tile(aes(fill = recruits),
+            color = "white", linewidth = 0.3) +
+  rcartocolor::scale_fill_carto_c(palette = "Emrld", na.value = "grey60") +
+  theme_bw() + 
+  labs(fill = "No. recruits", 
+       x = "Individual plants", y = NULL) +
+  theme(legend.position = "bottom",
+        legend.key.width = unit(0.5, "in"),
+        panel.grid = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(face = "italic")) +
+  geom_text(data = marginal_totals_birds, aes(
+                x = "TOTAL", y = fct_reorder(bird_sp, total_recruits_bird),
+                label = signif(total_recruits_bird, digits = 1)),
+            size = 2.5) +
+  geom_text(data = marginal_totals_plants, aes(
+                y = "TOTAL", x = fct_reorder(id_plant, total_recruits_plant),
+                label = signif(total_recruits_plant, digits = 1)),
+            size = 2.5) +
+  expand_limits(x = 1:4, y = 1:4)
+
+```
+
+```{r}
+ggsave(here("figs/fig_recruits_per_million_mat.pdf"), width = 12, height = 8)
+```
+
+Figure recruits by individual plants:
+```{r}
+recruitment_plants_EP <- readRDS(here("data/propagules_by_plant_EP.rds"))
+
+indv_rec <- recruitment_plants_EP %>% 
+  group_by(id_plant) %>% 
+  summarise(recruits = median(recruits)) %>%
+  mutate(rank = rank(desc(recruits))) %>%
+  ungroup() %>%
+  mutate(total_recruits = sum(recruits),
+         prop.rec = recruits/total_recruits) %>%
+  arrange(desc(rank)) %>%
+  mutate(cum_recruits = cumsum(recruits),
+         cum_prop = cumsum(prop.rec)) %>%
+  mutate(rec90 = ifelse(cum_prop > 0.9, "yes", "no"),
+         rec50 = ifelse(cum_prop > 0.5, "yes", "no"))
+
+#Number of plants to achieve 50% recruitment
+indv_rec %>% group_by(rec90) %>% count()
+#Number of plants to achieve 90% recruitment
+indv_rec %>% group_by(rec50) %>% count()
+
+cum <- ggplot(indv_rec, aes(x = rank, y = cum_recruits, label = id_plant)) +
+  geom_line() + geom_point(size = 3) + #ggrepel::geom_text_repel(size = 2.5) +
+  labs(y = "Cumulative number of recruits") +
+  theme_minimal()
+
+normal <- ggplot(indv_rec, aes(x = rank, y = recruits, label = id_plant)) +
+  ggalt::geom_lollipop(point.size = 3) + #ggrepel::geom_text_repel(size = 2.5) +
+  labs(y = "Number of recruits") +
+  theme_minimal()
+
+library(patchwork)
+
+cum + normal 
+```
+
+```{r}
+ggsave(here("figs/fig_recruits_by_plant.pdf"), width = 10, height = 4)
+```

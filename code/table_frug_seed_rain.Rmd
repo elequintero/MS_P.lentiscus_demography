@@ -1,0 +1,239 @@
+---
+title: "Frugivore role in *P. lentiscus* seed rain"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+
+```{r, warning=F, message=F}
+library(here)
+library(tidyverse)
+library(tidylog)
+library(vegan)
+library(magrittr)
+library(ggspatial)
+library(kableExtra)
+library(ggrepel)
+
+theme_set(theme_minimal())
+```
+
+Load data for birds:
+```{r}
+bird_propagules <- readRDS(here("data/propagules_by_bird_EP.rds")) %>%
+  mutate(bird_sp = str_replace(bird_sp, "_", " "))
+```
+
+
+# 1. % consumption and dispersal (using individual plant data)
+
+```{r}
+bird.total.cons <- bird_propagules |> 
+  select(bird_sp, fru.cons) |> 
+  group_by(bird_sp) |> 
+  mutate(iteration = 1:1000)
+```
+
+Calculate total consumption per iteration:
+```{r}
+total.cons <- bird.total.cons |> 
+  group_by(iteration) |> 
+  summarise(total.cons = sum(fru.cons))
+
+bird.prop.cons <- bird.total.cons |> 
+  mutate(total.cons.iter = total.cons$total.cons) |> 
+  mutate(p.cons = fru.cons/total.cons.iter)
+
+fru.cons.bird.sum <- bird.prop.cons |> 
+  group_by(bird_sp) |> 
+  summarise(median.fru.cons = median(fru.cons, na.rm = T),
+            CI.0.10.fru.cons = quantile(fru.cons, probs = 0.10),
+            CI.0.90.fru.cons = quantile(fru.cons, probs = 0.90),
+            
+            median.p.cons = median(p.cons),
+            CI.0.10.p.cons = quantile(p.cons, probs = 0.10),
+            CI.0.90.p.cons = quantile(p.cons, probs = 0.90)) %>%
+  arrange(desc(median.fru.cons))
+
+sum(fru.cons.bird.sum$median.p.cons) # Not very close to 1 due to medians... 
+```
+
+# 2. % consumption and dispersal (using seed traps data) - POPULATION LEVEL
+
+We use data for EP site so values are seeds by square meter in EP site
+```{r}
+seed.rain.EP <- readRDS(here("data/n.seeds.birds.EP.site.rds"))
+#glimpse(seed.rain.EP)
+```
+
+```{r}
+seed.rain.sum <- seed.rain.EP %>%
+  group_by(bird_sp) %>%
+  summarise(median.seeds.disp = median(total.seeds.bird),
+            CI.0.10.seeds.disp = quantile(total.seeds.bird, probs = 0.10),
+            CI.0.90.seeds.disp = quantile(total.seeds.bird, probs = 0.90),
+            
+            median.p.disp = median(p.disp),
+            CI.0.10.p.disp = quantile(p.disp, probs = 0.10),
+            CI.0.90.p.disp = quantile(p.disp, probs = 0.90),
+            
+            median.viab.seeds.disp = median(total.viab.seeds.bird),
+            CI.0.10.viab.seeds.disp = quantile(total.viab.seeds.bird, probs = 0.10),
+            CI.0.90.viab.seeds.disp = quantile(total.viab.seeds.bird, probs = 0.90),
+            
+            median.p.disp.viab = median(p.disp.viab),
+            CI.0.10.p.disp.viab = quantile(p.disp.viab, probs = 0.10),
+            CI.0.90.p.disp.viab = quantile(p.disp.viab, probs = 0.90))
+
+seed.rain.sum %>%
+  select(bird_sp, starts_with("median"))
+
+sum(seed.rain.sum$median.p.disp.viab) #sum of median proportions (close to 1)
+```
+
+# 3. % of Pistacia in seed rain related to all fruit species
+```{r}
+all_seeds <- read.csv(here("data/seed_rain_all_fruit_sp.csv"))
+
+p.lentisc.diet <- all_seeds %>%
+  group_by(bird_sp, seed_sp1) %>%
+  summarise(n.seeds = sum(n_seeds)) %>%
+  group_by(bird_sp) %>%
+  mutate(total.seeds = sum(n.seeds),
+         p.seed.in.rain = n.seeds/total.seeds) %>%
+  filter(seed_sp1 == "pistacia") %>%
+  arrange(desc(p.seed.in.rain)) 
+
+p.lentisc.diet %>%
+  print(n="Inf")
+```
+
+
+# 4. Recruitment by birds (using ind plant data)
+
+```{r}
+recruitment <- readRDS(here("data/propagules_by_bird_EP.rds"))
+#glimpse(recruitment)
+```
+
+```{r}
+p.recruitment <- recruitment %>%
+  select(bird_sp, bird.total.recruits = recruits) %>%
+  mutate(bird_sp = str_replace(bird_sp, "_", " ")) %>%
+  group_by(bird_sp) %>%
+  mutate(iter = c(1:1000)) %>%
+  group_by(iter) %>%
+  mutate(total.recruits = sum(bird.total.recruits)) %>%
+  ungroup() %>%
+  mutate(p.recruitment = bird.total.recruits/total.recruits)
+
+recruitment.sum <- p.recruitment %>%
+  group_by(bird_sp) %>%
+  summarise(median.recruits = median(bird.total.recruits),
+            CI.0.10.recruits = quantile(bird.total.recruits, probs = 0.10),
+            CI.0.90.recruits = quantile(bird.total.recruits, probs = 0.90),
+            
+            median.p.recruit = median(p.recruitment),
+            CI.0.10.p.recruit = quantile(p.recruitment, probs = 0.10),
+            CI.0.90.p.recruit = quantile(p.recruitment, probs = 0.90)) %>%
+  arrange(desc(median.p.recruit))
+
+recruitment.sum
+
+sum(recruitment.sum$median.p.recruit) #good close to 1!
+```
+
+# 5. % points where at least 1 seed is contributed by the species
+
+```{r}
+sampling_station <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
+
+binary.mat.seed.traps <- sampling_station %>% 
+  select(bird_sp, mh_id, n_seed_m2) %>%
+  pivot_wider(names_from = mh_id, values_from = n_seed_m2) %>%
+  filter(!is.na(bird_sp)) %>% 
+  replace(is.na(.), 0) %>%
+  mutate_if(is.numeric, ~1 * (. != 0)) 
+
+traps.w.seed <- binary.mat.seed.traps %>%
+  rowwise() %>%
+  mutate(sum = sum(across(where(is.numeric))),
+         p.traps.w.seed = sum/(length(unique(sampling_station$mh_id)))) %>%
+  select(bird_sp, n_traps_w_seeds = sum, p.traps.w.seed)
+
+traps.w.seed
+```
+
+
+# 7. diversity sampling points
+
+```{r}
+hills <- read_csv(here("data/seed_trap_diversity_hills.csv"))
+hills
+```
+
+# Frugivore table
+
+```{r}
+table <- fru.cons.bird.sum %>%
+  left_join(seed.rain.sum) %>% 
+  left_join(recruitment.sum) %>%
+  #select(-starts_with("CI")) %>%
+  left_join(p.lentisc.diet[,c(1,5)]) %>%
+  left_join(traps.w.seed[-2]) %>%
+  left_join(hills) %>%
+  arrange(desc(median.fru.cons)) %>%
+  filter(!is.na(median.seeds.disp)) #remove bird with no seed rain data
+
+#glimpse(table)
+```
+
+```{r}
+table.ms <- table %>%
+  select(bird_sp, 
+         median.p.cons , CI.0.10.p.cons, CI.0.90.p.cons,
+         median.p.disp, CI.0.10.p.disp, CI.0.90.p.disp,
+         median.p.disp.viab, CI.0.10.p.disp.viab, CI.0.90.p.disp.viab,
+         median.p.recruit , CI.0.10.p.recruit, CI.0.90.p.recruit,
+         p.traps.w.seed,
+         p.pistacia.seed = p.seed.in.rain) %>%
+  arrange(desc(median.p.recruit)) %>%
+  mutate(p.cons = paste0(signif(median.p.cons, digits = 1),
+                        " [", signif(CI.0.10.p.cons, digits = 1), " – ",
+                        signif(CI.0.90.p.cons, digits = 1), "]"),
+         p.disp = paste0(signif(median.p.disp, digits = 1),
+                        " [", signif(CI.0.10.p.disp, digits = 1), " – ",
+                        signif(CI.0.90.p.disp, digits = 1), "]"),
+         p.disp.viab = paste0(signif(median.p.disp.viab, digits = 1),
+                        " [", signif(CI.0.10.p.disp.viab, digits = 1), " – ",
+                        signif(CI.0.90.p.disp.viab, digits = 1), "]"),
+         p.recruitment = paste0(signif(median.p.recruit, digits = 1),
+                        " [", signif(CI.0.10.p.recruit, digits = 1), " – ",
+                        signif(CI.0.90.p.recruit, digits = 1), "]"),
+         p.traps.w.seed = round(p.traps.w.seed, digits = 3),
+         p.pistacia.seed = round(p.pistacia.seed, digits = 3),
+         per.traps.w.seed = p.traps.w.seed * 100, 
+         per.pistacia.seed = p.pistacia.seed *100
+         ) %>%
+  select(bird_sp,
+         p.cons, p.disp, p.disp.viab, p.recruitment,
+         per.traps.w.seed, per.pistacia.seed) %>%
+  mutate(bird_sp = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",
+                       "Sylvia undata" = "Curruca undata",
+                       "Sylvia communis" = "Curruca communis",
+                       "Sylvia hortensis" = "Curruca hortensis",
+                       "Sylvia cantillans" = "Curruca iberiae"))
+
+table.ms %>%
+  kbl() %>%
+  kable_styling()
+
+write_csv(table.ms, here("data/table.frugivores.csv"))
+```
+

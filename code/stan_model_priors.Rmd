@@ -1,0 +1,80 @@
+---
+title: "Stan model priors"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(assertr)
+library(tidylog)
+library(ggplot2)
+library(patchwork)
+```
+
+## Crop's viability:
+```{r}
+viab.crop <- read.csv(here ("data/crop_viab.csv"))
+```
+
+```{r}
+viab.crop %>% 
+  mutate(viab.p=viab/total_fruits) %>% summarise(mean(viab.p), sd(viab.p))
+```
+
+Viability by color summary:
+```{r}
+viab.crop %>% 
+  mutate(black.viab.p=black_v/black, red.viab.p=red_v/red) %>% 
+  #mutate(black.viab.p=ifelse(is.nan(black.viab.p), 0, black.viab.p)) %>%
+  summarise(mean.black.viab.p=mean(black.viab.p, na.rm=T), 
+            sd.black.viab.p=sd(black.viab.p, na.rm=T),
+            mean(red.viab.p), sd(red.viab.p))
+```
+
+Distribution viable seeds by color:
+```{r, message=F}
+b.graph <- viab.crop %>% 
+  mutate(black.viab.p=black_v/black, red.viab.p=red_v/red) %>% 
+  ggplot(aes(x=black.viab.p)) + geom_histogram(fill="#636363", color="#252525") + theme_bw()
+
+r.graph <- viab.crop %>% 
+  mutate(black.viab.p=black_v/black, red.viab.p=red_v/red) %>% 
+  ggplot(aes(x=red.viab.p)) + geom_histogram(fill="#fc9272", color="#de2d26") + theme_bw()
+
+b.graph + r.graph
+```
+
+## Dispersed seeds' viability:
+```{r}
+viab.disp <- read.csv(here ("data/dispersed_seed_viability.csv"))
+```
+
+```{r}
+viab.disp %>% 
+  summarise(total.sink = sum(sink), total.float = sum(float)) %>%
+  mutate(p.viab = total.sink / (total.sink + total.float))
+```
+
+
+## Fruit color preference by birds:
+```{r}
+feed <- read.csv(here ("data/feeding_rates_gopro.csv"), sep=";", comment.char = "#")
+```
+
+Remove rows with non-available data:
+```{r}
+feed <- feed %>% 
+  filter(feeding=="yes") %>%  #remove videos where no feeding
+  filter(!is.na(beak_trials)) %>% #remove videos that don't have behaviour/pref data 
+  filter(black_availability >= 0.1 & black_availability <= 0.9) %>% #select videos where there black fruit available is between 10 and 90%
+  mutate(black_pref=fruit_black/(fruit_black+fruit_red))
+```
+
+```{r}
+feed %>% summarise(black_pref.mean=mean(black_pref, na.rm=T),
+            black_pref.sd=sd(black_pref, na.rm=T))
+```
+
+
+

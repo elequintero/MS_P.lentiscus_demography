@@ -1,0 +1,299 @@
+---
+title: "Estimate number of propagules at each stage and recruitment by plant and by bird"
+author: "Elena Quintero"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+suppressPackageStartupMessages(library(tidylog))
+library(forcats)
+```
+
+
+### 1. TOTAL NUMBER OF FRUITS CONSUMED
+
+Read total consumption of fruits and bird quality:
+```{r}
+Nfruit.cons <- readRDS(here("data/Nfruits.cons.per.plant.rds")) %>%
+  arrange(int)
+  
+glimpse(Nfruit.cons)
+```
+
+
+### 2. TOTAL NUMBER OF VIABLE FRUITS CONSUMED
+
+Read consumption of **viable** fruits:
+```{r}
+cons.viab <- readRDS(
+  here("data/plant.bird.Nviab.long_IDs.rds")) %>%
+  mutate(int = paste0(plant_id, "-", bird_sp))
+```
+
+The number or rows in this dataset (n = 2160,000) represents all possible combinations between individual plants and birds.
+
+Remove pairwise interactions with no observed fruit consumption:
+```{r}
+#List of non-observed interactions:
+cons.missing.int <- setdiff(unique(cons.viab$int), unique(Nfruit.cons$int))
+
+#Remove these interactions that are not observed (filter by removing non-observed ints)
+cons.viab.obs <- cons.viab %>% 
+  filter(!int %in% cons.missing.int) %>% 
+  arrange(int) %>% 
+  select(int2 = int, 
+         fru.cons.viab = fru)
+
+#Check we are no removing interactions with fruit consumption:
+cons.viab %>% 
+  filter(int %in% cons.missing.int) %>% 
+  summarise(sum(fru))
+#the sum of all these removed observations is 0 - good
+```
+
+Merge total fruit consumed and viable fruits consumed
+```{r}
+cons.full <- Nfruit.cons %>% 
+  bind_cols(cons.viab.obs) %>%
+  select(-c(iter, int2))
+
+head(cons.full)
+```
+
+
+### 3. PROB TO ESCAPE BIRD PREDATION
+
+```{r}
+P.escape.bird <-  readRDS(here("data/P.bird.escape.pred.rds")) %>%
+  arrange(int_pred)
+
+glimpse(P.escape.bird)
+```
+
+
+### 4. PROB TO DISPERSE TO THE DIFFERENT MICROHABITATS
+
+```{r}
+P.use.EP <- readRDS(here("data/Pdisperse.bird.mh.cover.rds"))
+
+P.use.EP.wide <- P.use.EP %>% 
+  select(bird_sp, mh, Prob.bird.mh) %>%
+  mutate(mh = paste0("EP.Prob.bird.mh_", mh)) %>%
+  pivot_wider(names_from = mh, values_from = Prob.bird.mh, values_fn = list) %>%
+  tidyr::unnest(cols = starts_with("EP.")) %>%
+  group_by(bird_sp) %>%
+  mutate(iter = c(1:1000)) %>%
+  mutate(bird_sp = str_replace(bird_sp, " ", "_"))
+
+glimpse(P.use.EP.wide)
+```
+
+```{r}
+P.use.general <- readRDS(here("data/Pdisperse.bird.mh.rds"))
+
+P.use.general.wide <- P.use.general %>% 
+  select(bird_sp, mh, Prob.bird.mh) %>%
+  mutate(mh = paste0("Prob.bird.mh_", mh)) %>%
+  pivot_wider(names_from = mh, values_from = Prob.bird.mh, values_fn = list) %>%
+  tidyr::unnest(cols = starts_with("Prob.")) %>%
+  group_by(bird_sp) %>%
+  mutate(iter = c(1:1000)) %>%
+  mutate(bird_sp = str_replace(bird_sp, " ", "_"))
+
+glimpse(P.use.general.wide)
+```
+
+
+### 5. PROB TO RECRUIT IN DIFFERENT MICROHABITATS
+
+```{r}
+mh_quality <- readRDS(here("data/mh.quality.rds"))
+
+mh_quality_rep <- purrr::map_dfr(seq_len(length(unique(cons.full$int))), ~mh_quality) #repeat same 526 times(one per unique plant-bird interaction)
+
+glimpse(mh_quality_rep)
+```
+
+
+### 6. MERGE ALL DATASETS
+
+```{r}
+dataset <- cons.full %>% 
+  bind_cols(P.escape.bird, mh_quality_rep) %>%
+  select(-c(int_pred)) %>%
+  group_by(bird_sp, id_plant) %>%
+  mutate(iter = c(1:1000)) %>%
+  left_join(P.use.EP.wide, by = c("bird_sp", "iter")) %>%
+  left_join(P.use.general.wide, by = c("bird_sp", "iter"))
+
+
+glimpse(dataset)
+```
+
+
+### 7. CALCULATE PROPAGULES AT EACH STAGE AND FINAL RECRUITMENT
+
+Estimate number of seedlings recruited based on if we want to include MH cover at EP site (using EP.Prob.bird) or not (using just Prob.bird). Calculate propagules passing at each stage for both pops and only for EP site correcting by mh cover.
+
+```{r}
+source(here("code/propagules_functions.R"))
+```
+
+
+```{r}
+propagules <- calc_propagules_func(dataset, include_mh_cover = FALSE)
+glimpse(propagules)
+
+propagules_EP <- calc_propagules_func(dataset, site_filter = "Puntal", include_mh_cover = TRUE)
+glimpse(propagules_EP)
+
+saveRDS(propagules, here("data/propagules_by_plant_and_bird.rds"))
+saveRDS(propagules_EP, here("data/propagules_by_plant_and_bird_EP.rds"))
+```
+
+
+### Aggregation by individual plants
+
+Load crop viability
+
+```{r}
+plant.viab <- readRDS(here("data/plant.Pviab_IDs.rds")) %>%
+  rename(id_plant = plant_id) %>%
+  mutate(id_plant = as.character(id_plant)) %>%
+  arrange(id_plant)
+```
+
+```{r}
+# consumption
+plant.total.cons <- plant_func(propagules, fruits.consumed.sp) %>% rename(fru.cons = var)
+# dispersal (escape bird predation)
+plant.total.disp <-  plant_func(propagules, fru.disp) %>% rename(fru.disp = var)
+# viable consumption
+plant.viab.cons <-  plant_func(propagules, fru.cons.viab) %>% rename(fru.viab.cons = var)
+# viable dispersal
+plant.viab.disp <-  plant_func(propagules, fru.viab.disp) %>% rename(fru.viab.disp = var)
+# seeds dispersed surviving rodent predation
+plant.seed.surv.pred <-  plant_func(propagules, viab.seed.surv.pred) %>% rename(viab.seed.surv.pred = var)
+# seedling emergence
+plant.seed.emer <-  plant_func(propagules, viab.seed.emer) %>% rename(viab.seed.emer = var)
+# survival 1st summer
+plant.seed.surv1 <-  plant_func(propagules, viab.seed.surv1) %>% rename(viab.seed.surv1 = var)
+#survival 2nd summer (recruitment)
+plant.seed.surv2 <-  plant_func(propagules, recruits) %>% rename(recruits = var)
+
+
+# same for EP site:
+plant.total.cons.EP <- plant_func(propagules_EP, fruits.consumed.sp) %>% rename(fru.cons = var)
+plant.total.disp.EP <-  plant_func(propagules_EP, fru.disp) %>% rename(fru.disp = var)
+plant.viab.cons.EP <-  plant_func(propagules_EP, fru.cons.viab) %>% rename(fru.viab.cons = var)
+plant.viab.disp.EP <-  plant_func(propagules_EP, fru.viab.disp) %>% rename(fru.viab.disp = var)
+plant.seed.surv.pred.EP <-  plant_func(propagules_EP, viab.seed.surv.pred) %>% rename(viab.seed.surv.pred = var)
+plant.seed.emer.EP <-  plant_func(propagules_EP, viab.seed.emer) %>% rename(viab.seed.emer = var)
+plant.seed.surv1.EP <-  plant_func(propagules_EP, viab.seed.surv1) %>% rename(viab.seed.surv1 = var)
+plant.seed.surv2.EP <-  plant_func(propagules_EP, recruits) %>% rename(recruits = var)
+```
+
+Select crop size and site:
+
+```{r}
+plant_traits <- propagules %>% 
+  group_by(id_plant) %>%
+  summarise(site = first(site), cropsize = first(initcrop))
+```
+
+Merge all:
+
+```{r}
+plant <- plant.viab %>% 
+  left_join(plant_traits) %>%
+  bind_cols(fru.cons = plant.total.cons$fru.cons) %>%
+  bind_cols(fru.viab.cons = plant.viab.cons$fru.viab.cons) %>%
+  bind_cols(fru.disp = plant.total.disp$fru.disp) %>%
+  bind_cols(fru.viab.disp = plant.viab.disp$fru.viab.disp) %>%
+  bind_cols(viab.seed.surv.pred = plant.seed.surv.pred$viab.seed.surv.pred) %>%
+  bind_cols(viab.seed.emerged = plant.seed.emer$viab.seed.emer) %>%
+  bind_cols(viab.seed.surv1 = plant.seed.surv1$viab.seed.surv1) %>%
+  bind_cols(recruits = plant.seed.surv2$recruits)
+
+saveRDS(plant, here("data/propagules_by_plant.rds"))
+```
+
+```{r}
+plants.EP <- plant_traits %>% 
+  filter(site == "Puntal") %>%
+  left_join(plant.viab) %>%
+  bind_cols(fru.cons = plant.total.cons.EP$fru.cons) %>%
+  bind_cols(fru.viab.cons = plant.viab.cons.EP$fru.viab.cons) %>%
+  bind_cols(fru.disp = plant.total.disp.EP$fru.disp) %>%
+  bind_cols(fru.viab.disp = plant.viab.disp.EP$fru.viab.disp) %>%
+  bind_cols(viab.seed.surv.pred = plant.seed.surv.pred.EP$viab.seed.surv.pred) %>%
+  bind_cols(viab.seed.emerged = plant.seed.emer.EP$viab.seed.emer) %>%
+  bind_cols(viab.seed.surv1 = plant.seed.surv1.EP$viab.seed.surv1) %>%
+  bind_cols(recruits = plant.seed.surv2.EP$recruits)
+
+saveRDS(plants.EP, here("data/propagules_by_plant_EP.rds"))
+```
+
+### Aggregation by bird_sp
+
+```{r}
+bird.total.cons <- bird_func(propagules, fruits.consumed.sp) %>% rename(fru.cons = var)
+bird.total.disp <-  bird_func(propagules, fru.disp) %>% rename(fru.disp = var)
+bird.viab.cons <-  bird_func(propagules, fru.cons.viab) %>% rename(fru.viab.cons = var)
+bird.viab.disp <-  bird_func(propagules, fru.viab.disp) %>% rename(fru.viab.disp = var)
+bird.seed.surv.pred <-  bird_func(propagules, viab.seed.surv.pred) %>% rename(viab.seed.surv.pred = var)
+bird.seed.emer <-  bird_func(propagules, viab.seed.emer) %>% rename(viab.seed.emer = var)
+bird.seed.surv1 <-  bird_func(propagules, viab.seed.surv1) %>% rename(viab.seed.surv1 = var)
+bird.seed.surv2 <-  bird_func(propagules, recruits) %>% rename(recruits = var)
+
+# same for EP site:
+bird.total.cons.EP <- bird_func(propagules_EP, fruits.consumed.sp) %>% rename(fru.cons = var)
+bird.total.disp.EP <-  bird_func(propagules_EP, fru.disp) %>% rename(fru.disp = var)
+bird.viab.cons.EP <-  bird_func(propagules_EP, fru.cons.viab) %>% rename(fru.viab.cons = var)
+bird.viab.disp.EP <-  bird_func(propagules_EP, fru.viab.disp) %>% rename(fru.viab.disp = var)
+bird.seed.surv.pred.EP <-  bird_func(propagules_EP, viab.seed.surv.pred) %>% rename(viab.seed.surv.pred = var)
+bird.seed.emer.EP <-  bird_func(propagules_EP, viab.seed.emer) %>% rename(viab.seed.emer = var)
+bird.seed.surv1.EP <-  bird_func(propagules_EP, viab.seed.surv1) %>% rename(viab.seed.surv1 = var)
+bird.seed.surv2.EP <-  bird_func(propagules_EP, recruits) %>% rename(recruits = var)
+```
+
+merge:
+
+```{r}
+bird <- bird.total.cons %>% 
+  select(bird_sp, fru.cons) %>%
+  bind_cols(fru.viab.cons = bird.viab.cons$fru.viab.cons) %>%
+  bind_cols(fru.disp = bird.total.disp$fru.disp) %>%
+  bind_cols(fru.viab.disp = bird.viab.disp$fru.viab.disp) %>%
+  bind_cols(viab.seed.surv.pred = bird.seed.surv.pred$viab.seed.surv.pred) %>%
+  bind_cols(viab.seed.emerged = bird.seed.emer$viab.seed.emer) %>%
+  bind_cols(viab.seed.surv1 = bird.seed.surv1$viab.seed.surv1) %>%
+  bind_cols(recruits = bird.seed.surv2$recruits)
+
+saveRDS(bird, here("data/propagules_by_bird.rds"))
+```
+
+```{r}
+bird.EP <- bird.total.cons.EP %>% 
+  select(bird_sp, fru.cons) %>%
+  bind_cols(fru.viab.cons = bird.viab.cons.EP$fru.viab.cons) %>%
+  bind_cols(fru.disp = bird.total.disp.EP$fru.disp) %>%
+  bind_cols(fru.viab.disp = bird.viab.disp.EP$fru.viab.disp) %>%
+  bind_cols(viab.seed.surv.pred = bird.seed.surv.pred.EP$viab.seed.surv.pred) %>%
+  bind_cols(viab.seed.emerged = bird.seed.emer.EP$viab.seed.emer) %>%
+  bind_cols(viab.seed.surv1 = bird.seed.surv1.EP$viab.seed.surv1) %>%
+  bind_cols(recruits = bird.seed.surv2.EP$recruits)
+
+saveRDS(bird.EP, here("data/propagules_by_bird_EP.rds"))
+```
+
+```{r}
+sessioninfo::session_info()
+```

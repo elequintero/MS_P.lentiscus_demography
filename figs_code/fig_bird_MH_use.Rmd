@@ -1,0 +1,127 @@
+---
+title: "MH use by birds"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r, warning=F, message=F}
+library(here)
+library(tidyverse)
+library(magrittr)
+library(tidylog)
+library(ggdist)
+library(assertr)
+
+theme_set(theme_minimal())
+```
+
+Define colors MH:
+```{r}
+mh_cols <- c("FR"="#8d0060", "PP"="#cadd79", "PL"="#7186ff", "NF"="#fd863e", "OA"="#843600")
+```
+
+Load MH datasets:
+```{r}
+disp.bird.EP <- readRDS(here("data/Pdisperse.bird.mh.cover.rds"))
+```
+
+```{r}
+bird_grouping <- read.csv(here("data/bird_grouping.csv")) %>%
+  mutate(bird_sp = str_replace(bird_sp, "_", " "))
+
+disp.bird.EP %<>% left_join(bird_grouping)
+```
+
+```{r}
+#check MH probs sum up to 1
+
+check <- disp.bird.EP %>%
+  group_by(bird_sp, mh) %>%
+  mutate(iter = c(1:1000)) %>%
+  group_by(bird_sp, iter) %>%
+  summarise(prob.sum = sum(Prob.bird.mh))
+#  assert(in_set(c(0.9, 1.1)), prob.sum) # using assert gives problems
+
+summary(check$prob.sum)
+```
+
+Select only bird species that appeared in seed rain:
+```{r}
+sampling_station <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
+only_bc_birds <- unique(sampling_station$bird_sp)
+```
+
+
+## Bar graph by birds:
+
+1. Add variable to order or fruit consumption:
+```{r}
+prop_bird <- readRDS(here("data/propagules_by_bird_general_EP.rds"))
+
+sum.fru.disp.bird <- prop_bird %>% 
+  group_by(bird_sp) %>%
+  summarise(fru.disp = median(seed.arrival, na.rm = T)) %>%
+  arrange(desc(fru.disp)) %>%
+  mutate(bird_sp = str_replace(bird_sp, "_", " "))
+
+sum.fru.disp.bird
+```
+
+2. Add MH cover to include on top of the graph:
+```{r}
+mh_cover <- read.csv(here("data/mh_cover.csv"))
+
+mh_cover
+
+add_line <- mh_cover %>%
+  select(mh = microhab,
+         MH.use = cover.per) %>%
+  mutate(bird_sp = "MH COVER",
+         fru.disp = sum(sum.fru.disp.bird$fru.disp)) %>%
+  relocate(bird_sp, .before = everything())
+```
+
+3. Arrange data for plotting (I take the mean of the distribution because median doesn't add up to 1, and anyway are similar)
+```{r}
+plot.data <- disp.bird.EP %>% 
+  filter(bird_sp %in% only_bc_birds) %>% 
+  group_by(bird_sp, mh) %>%
+  summarise(MH.use = mean(Prob.bird.mh)) %>%
+  left_join(sum.fru.disp.bird) %>%
+  rbind(add_line) %>%
+  mutate(bird_sp = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",
+                                   "Sylvia undata" = "Curruca undata",
+                                   "Sylvia communis" = "Curruca communis",
+                                   "Sylvia hortensis" = "Curruca hortensis",
+                                   "Sylvia cantillans" = "Curruca iberiae"))
+```
+
+
+```{r}
+ggplot(plot.data, aes(y = fct_reorder(bird_sp, fru.disp), x = MH.use, fill = mh, color = mh)) + 
+  geom_bar(stat = "identity", alpha = 0.5, width = 0.85) +
+  scale_fill_manual(values = mh_cols) + 
+  scale_color_manual(values = mh_cols) + 
+  scale_x_continuous(expand = expansion(mult = c(0, 0.1)), breaks = c(0, 0.25, 0.5, 0.75, 1)) +
+  theme(legend.position = "bottom",
+        axis.text.y = element_text(face = "italic"),
+        panel.grid = element_blank(),
+        panel.grid.major.x = element_line(color = "grey50", linetype = "dotted" )) +
+  labs(x = NULL, y = NULL) +
+  geom_text(data = plot.data %>% filter(mh == "PL"), 
+            aes(x = 1.1, y = bird_sp, label = round(fru.disp)), 
+            color = "black", size = 3, hjust = 0, nudge_x = -0.08) +
+  guides(colour = guide_legend(reverse=T), fill = guide_legend(reverse=T))
+```
+
+
+```{r}
+ggsave(here("figs/fig_MH_use_by_birds.pdf"), width = 10, height = 7)
+```
+

@@ -1,0 +1,177 @@
+# file_name - name of the file containing the video of the event;;;;;;;;;;;;;;;;;;
+# date - when the video was recorded;;;;;;;;;;;;;;;;;;
+# plant - the individual plant at which the video was recorded;;;;;;;;;;;;;;;;;;
+# black_availability - availability of black fruits in the branch measured as an observational percentage;;;;;;;;;;;;;;;;;;
+# spp - bird species feeding;;;;;;;;;;;;;;;;;;
+# no_fruits - total number of  fruits succesfully removed and usually swallowed (unless the bird leaves with the fruit on the beak to consume it other place);;;;;;;;;;;;;;;;;;
+# beak_trials - total number of beak trials (succesful and not succesful);;;;;;;;;;;;;;;;;;
+# fruit_black - number of black fruits consumed;;;;;;;;;;;;;;;;;;
+# fruit_red - number of red frutis consumed;;;;;;;;;;;;;;;;;;
+# fruit_NA - number of consumed fruits whose color is not appreciated.;;;;;;;;;;;;;;;;;;
+# dropped_fruits - number of fruits droped;;;;;;;;;;;;;;;;;;
+# flight_fruit - of the bird leaves with the fruit on the beak without swallowing it first;;;;;;;;;;;;;;;;;;
+# arrival - minute in the video of bird arrival;;;;;;;;;;;;;;;;;;
+# departure - minute in the video with bird departure;;;;;;;;;;;;;;;;;;
+# duration - visit duration;;;;;;;;;;;;;;;;;;
+# behav - bird behaviour (mostly feeding);;;;;;;;;;;;;;;;;;
+# feeding - binary variable (yes/no);;;;;;;;;;;;;;;;;;
+# full_visit - if the visit is fully recorded (yes) or if it is partial (no);;;;;;;;;;;;;;;;;;
+# indiv_obs - observations for the specific video;;;;;;;;;;;;;;;;;;
+##--------------------------------------##;;;;;;;;;;;;;;;;;;
+##--------------------------------------##;;;;;;;;;;;;;;;;;;
+##--------------------------------------##;;;;;;;;;;;;;;;;;;
+file_name;date;plant;black_availability;spp;no_fruits;beak_trials;fruit_black;fruit_red;fruit_NA;dropped_fruits;flight_fruit;arrival;departure;duration;behav;feeding;full_visit;indiv_obs
+20200127_1_E_rub.mp4;20200127;A;0.8;Erithacus rubecula;2;2;1;0;1;0;yes;0:00:01;0:00:52;0:51;feeding;yes;yes;
+20200127_10_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;4;5;4;0;0;1;no;0:00:01;0:00:24;0:23;feeding;yes;yes;
+20200127_11_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;2;2;2;0;0;0;yes;0:01:13;0:01:46;0:33;feeding;yes;yes;
+20200127_12_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;3;3;2;0;1;0;yes;0:00:08;0:00:32;0:24;feeding;yes;yes;
+20200127_13_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;6;6;3;0;3;0;yes;0:00:03;0:00:30;0:27;feeding;yes;yes;
+20200127_14_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:07;0:00:15;0:08;feeding;yes;yes;
+20200127_2_E_rub.mp4;20200127;A;0.8;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:15;0:00:32;0:17;feeding;yes;yes;GREAT CAPTURE. super fast
+20200127_3_S_mel_E_rub_fight.mp4;20200127;D;0.8;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:06;0:00:35;0:29;feeding / interacting;yes;yes;E rub getting territorial
+20200127_3_S_mel_E_rub_fight.mp4;20200127;D;0.8;Erithacus rubecula;;;;;;;;0:00:30;0:00:35;0:05;interacting;no;;E rub getting territorial
+20200127_4_S_mel.mp4;20200127;D;0.8;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:02;0:00:23;0:21;feeding;yes;yes;
+20200127_5_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;4;4;2;0;2;0;NA;0:00:02;0:00:39;0:37;feeding;yes;yes;
+20200127_6_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;3;3;3;0;0;0;no;0:00:04;0:00:14;0:10;feeding;yes;yes;
+20200127_7_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;5;6;2;1;2;0;no;0:00:01;0:00:34;0:33;feeding;yes;yes;
+20200127_8_S_mel.mp4;20200127;D;0.8;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:01;0:00:17;0:16;feeding;yes;yes;
+20200127_9_E_rub.mp4;20200127;D;0.8;Erithacus rubecula;6;6;6;0;0;0;no;0:00:04;0:00:28;0:24;feeding;yes;yes;discards one fruit (not considered in the 5)
+20200128_1_E_rub.mp4;20200128;A;0.8;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:03;0:00:16;0:13;feeding;yes;yes;
+20200128_10_E_rub.mp4;20200128;E;0.8;Erithacus rubecula;6;6;3;0;3;0;yes;0:00:02;0:00:36;0:34;feeding;yes;yes;leaves with fruit on beak
+20200128_10_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:04;0:00:35;0:31;feeding;yes;yes;
+20200128_11_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:04;0:00:39;0:35;feeding;yes;yes;video split in two visits (one per bird individual). 
+20200128_11_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;2;2;0;0;0;yes;0:01:12;0:01:41;0:30;feeding;yes;yes;video split in two visits  (one per bird individual). Leaves with fruit on beak
+20200128_12_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;3;2;0;0;0;no;0:00:06;0:00:34;0:28;feeding;yes;yes;
+20200128_12_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;1;2;1;0;0;0;no;0:02:38;0:02:50;0:12;feeding;yes;yes;fail 2nd beak trial
+20200128_13_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:01;0:00:18;0:17;feeding;yes;yes;
+20200128_14_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:01;0:00:30;0:29;feeding;yes;yes;
+20200128_15_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:05;0:00:25;0:20;feeding;yes;yes;
+20200128_16_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:02;0:00:22;0:20;feeding;yes;yes;
+20200128_17_S_mel_2visits.mp4;20200128;F;0.7;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:00;0:00:16;0:16;feeding;yes;yes;
+20200128_17_S_mel_2visits.mp4;20200128;F;0.7;Sylvia melanocephala;1;2;0;0;1;0;no;0:00:51;0:01:09;0:18;feeding;yes;yes;Expulsed by another smel
+20200128_18_S_mel.mp4;20200128;F;0.7;Sylvia melanocephala;1;1;0;0;1;0;no;0:00:02;0:00:46;0:44;feeding;yes;yes;
+20200128_19_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;NA;;;;;;;0:00:00;0:00:20;0:20;prob feeding;likely;no;
+20200128_2_E_rub.mp4;20200128;A;0.8;Erithacus rubecula;3;3;2;0;1;0;no;0:00:02;0:00:16;0:14;feeding;yes;yes;
+20200128_20_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;2;2;1;0;1;0;yes;0:00:23;0:00:38;0:15:00;feeding;yes;yes;
+20200128_21_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;2;2;1;0;1;0;yes;0:00:04;0:00:05;0:01;feeding;yes;yes;leaves with fruit on beak
+20200128_22_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:09;0:00:27;0:18;feeding;yes;yes;leaves with fruit on beak
+20200128_23_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:01;0:00:15;0:14;feeding;yes;yes;flies over twice
+20200128_24_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;7;7;4;0;3;0;no;0:00:01;0:00:21;0:20;feeding;yes;yes;
+20200128_25_E_rub.mp4;20200128;I;0.8;Erithacus rubecula;4;4;1;0;3;0;no;0:00:06;0:00:28;0:22;feeding;yes;yes;
+20200128_3_E_rub.mp4;20200128;A;0.8;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:09;0:00:20;0:11;feeding;yes;yes;
+20200128_4_E_rub.mp4;20200128;A;0.8;Erithacus rubecula;1;1;0;0;1;0;no;0:00:18;0:00:37;0:19;feeding;yes;yes;
+20200128_5_E_rub_fight.mp4;20200128;A;0.75;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:17;0:00:27;0:23;feeding;yes;yes;Expulsed by another robin
+20200128_6_E_rub.mp4;20200128;A;0.7;Erithacus rubecula;3;5;3;0;0;0;no;0:00:03;0:00:18;0:15;feeding;yes;yes;GREAT CAPTURE!
+20200128_7_S_mel.mp4;20200128;D;0.6;Sylvia melanocephala;2;3;2;0;0;0;no;0:00:21;0:00:45;0:26;feeding;yes;yes;
+20200128_8_S_mel.mp4;20200128;D;0.6;Sylvia melanocephala;3;3;3;0;0;0;yes;0:00:03;0:00:24;0:21;feeding;yes;yes;leaves with fruit on beak
+20200128_9_E_rub.mp4;20200128;D;0.55;Erithacus rubecula;5;5;5;0;0;0;yes;0:00:01;0:00:23;0:22;feeding;yes;yes;
+20200203_1_S_mel.mp4;20200203;A;0;Sylvia melanocephala;0;1;0;0;0;1;no;0:00:02;0:00:21;0:19;exploring;no;yes;discards one fruit
+20200203_3_E_rub.mp4;20200203;J;0.1;Erithacus rubecula;5;5;4;0;1;0;yes;0:00:07;0:00:36;0:29;feeding;yes;yes;
+20200203_4_E_rub.mp4;20200203;J;0.1;Erithacus rubecula;3;4;3;0;0;1;no;0:00:06;0:00:23;0:17;feeding;yes;yes;discards one fruit (not considered in the count)
+20200203_5_E_rub.mp4;20200203;J;0.1;Erithacus rubecula;3;3;1;0;2;0;NA;0:00:03;0:00:11;0:08;feeding;yes;yes;
+20200203_6_E_rub.mp4;20200203;J;0.1;Erithacus rubecula;3;4;2;1;0;0;no;0:00:02;0:00:25;0:23;feeding;yes;yes;
+20200203_7_E_rub.mp4;20200203;J;0.1;Erithacus rubecula;4;5;0;2;2;0;yes;0:00:02;0:00:34;0:32;feeding;yes;yes;
+20200210_1_E.rub.mp4;20200210;K;0.5;Erithacus rubecula;7;7;4;0;3;0;no;0:00:15;0:00:31;0:16;feeding;yes;yes;impressive
+20200210_2_E.rub.mp4;20200210;K;0.5;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:04;0:00:11;0:07;feeding;yes;yes;leaves with fruit on beak
+20200210_3_E.rub.mp4;20200210;K;0.5;Erithacus rubecula;3;3;3;0;0;0;NA;0:00:04;0:00:18;0:14;feeding;yes;yes;
+20200210_4_E.rub.mp4;20200210;K;0.5;Erithacus rubecula;2;2;2;0;0;0;no;0:00:04;0:00:43;0:39;feeding;yes;yes;leaves with fruit on beak
+20200211_1_S.mel.MP4;20200211;L;0.85;Sylvia melanocephala;3;4;3;0;0;0;no;0:00:10;0:01:02;0:52;feeding;yes;yes;take panicle with two fruits, I count one fruit
+20200211_10_E.rub.MP4;20200211;L;0.7;Erithacus rubecula;1;4;1;0;0;0;no;0:00:02;0:00:37;0:35;feeding;yes;yes;4 trials (3 failed)
+20200211_11_S.mel.MP4;20200211;L;0.7;Sylvia melanocephala;4;6;4;0;0;1;no;0:00:04;0:00:49;0:45;feeding;yes;yes;6 trials (2 failed) GREAT CAPTURE
+20200211_12_S.mel.MP4;20200211;L;0.7;Sylvia melanocephala;2;3;2;0;0;0;yes;0:00:01;0:00:27;0:26;feeding;yes;yes;leaves with fruit on beak (+1 failed trial). Good capture
+20200211_13_S.mel.MP4;20200211;L;0.6;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:08;0:00:36;0:28;feeding;yes;yes;GREAT CAPTURE!
+20200211_14_E.rub.MP4;20200211;L;0.5;Erithacus rubecula;1;1;1;0;0;0;no;0:00:07;0:00:11;0:04;feeding;yes;yes;leaves because of S mel
+20200211_15_S.mel.MP4;20200211;L;0.6;Sylvia melanocephala;4;6;4;0;0;2;no;0:00:03;0:01:37;1:38;feeding;yes;yes;Interesting video, good capture. Drops one panicle with 2 fruits and discards 1 fruit. Sits next to the camera.
+20200211_16_S.mel.MP4;20200211;L;0.55;Sylvia melanocephala;1;2;1;0;0;1;no;0:00:02;0:00:23;0:21;feeding;yes;yes;discards one fruit (not consumed, bit red, prob inmature), and drops one pannicle. Good capture
+20200211_17_S.mel.MP4;20200211;L;0.5;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:05;0:00:27;0:22;feeding;yes;yes;
+20200211_18_S.mel.mp4;20200211;M;0.95;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:03;0:00:36;0:33;feeding;yes;yes;
+20200211_19_S.mel.mp4;20200211;M;0.95;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:04;0:00:14;0:10;feeding;yes;yes;
+20200211_2_S.mel.MP4;20200211;L;0.85;Sylvia melanocephala;2;2;2;0;0;0;no;0:00:03;0:00:42;0:39;feeding;yes;yes;
+20200211_20_S.mel.mp4;20200211;M;0.95;Sylvia melanocephala;1;2;1;0;0;1;no;0:00:01;0:00:15;0:14;feeding;yes;yes;drops 1 fruits
+20200211_21_S.mel.mp4;20200211;M;0.95;Sylvia melanocephala;3;3;3;0;0;0;no;0:00:05;0:00:36;0:31;feeding;yes;yes;
+20200211_22_E.rub.mp4;20200211;M;0.95;Erithacus rubecula;7;9;7;0;0;2;yes;0:00:03;0:00:13;0:09;feeding;yes;yes;in 3 sub-visits eats 7 black fruits and drops 2 old panicles (counted as beak trials and dropped fruits)
+20200211_23_E.rub.mp4;20200211;M;0.9;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:05;0:00:06;0:01;feeding;yes;yes;leaves with fruit on beak
+20200211_24_E.rub_2 visits.mp4;20200211;M;0.9;Erithacus rubecula;1;1;1;0;0;0;no;0:00:03;0:00:06;0:03;feeding;yes;yes;
+20200211_24_E.rub_2 visits.mp4;20200211;M;0.8;Erithacus rubecula;4;5;4;0;0;0;yes;0:00:34;0:01:07;0:33;feeding;yes;yes;1 failed trial
+20200211_25_E.rub.mp4;20200211;M;0.5;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:12;0:00:13;0:01;feeding;yes;yes;leaves with fruit on beak
+20200211_25_E.rub.mp4;20200211;M;0;Erithacus rubecula;;;;;;;;0:00:34;0:00:43;0:09;exploring;no;yes;came looking for fruits, but no more fruits left
+20200211_26_E.rub.mp4;20200211;N;0.4;Erithacus rubecula;3;3;0;0;3;0;no;0:00:20;0:01:45;1:25;feeding;yes;partial;not fully visible
+20200211_27_E.rub.mp4;20200211;N;0.4;Erithacus rubecula;2;2;1;0;1;0;no;0:00:14;0:00:51;0:37;feeding;yes;yes;
+20200211_28_S.mel_E.rub.mp4;20200211;N;0.3;Sylvia melanocephala;4;5;4;0;0;0;yes;0:00:17;0:01:38;1:21;feeding;yes;yes;good capture
+20200211_28_S.mel_E.rub.mp4;20200211;N;0.3;Erithacus rubecula;4;5;3;0;1;0;yes;0:01:41;0:02:13;0:32;feeding;yes;yes;
+20200211_29_S.mel.mp4;20200211;N;0.25;Sylvia melanocephala;3;5;3;0;0;0;no;0:00:05;0:00:52;0:47;feeding;yes;yes;2 failed trials
+20200211_3_S.mel.MP4;20200211;L;0.85;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:08;0:00:33;0:25;feeding;yes;yes;
+20200211_30_S.mel.mp4;20200211;N;0.2;Sylvia melanocephala;2;4;2;0;0;0;yes;0:00:34;0:00:53;0:19;feeding;yes;yes;2 failed trials
+20200211_31_E.rub.mp4;20200211;N;0.2;Erithacus rubecula;2;2;2;0;0;0;NA;0:00:27;0:00:45;0:18;feeding;yes;yes;
+20200211_32_S.mel.mp4;20200211;N;0.15;Sylvia melanocephala;2;4;2;0;0;0;no;0:00:06;0:00:43;0:37;feeding;yes;yes;2 failed trials
+20200211_33_S.mel_E.rub_3visits.mp4;20200211;N;0.1;Sylvia melanocephala;5;7;5;0;0;0;yes;0:00:07;0:01:25;1:18;feeding;yes;yes;2 failed trial
+20200211_33_S.mel_E.rub_3visits.mp4;20200211;N;0.05;Sylvia melanocephala;2;2;1;0;1;0;yes;0:02:19;0:02:57;0:38;feeding;yes;yes;GREAT CAPTURE!
+20200211_33_S.mel_E.rub_3visits.mp4;20200211;N;0.05;Erithacus rubecula;3;4;3;0;0;0;no;0:04:55;0:06:16;1:21;feeding;yes;yes;1 failed trial. Trying to get the best approach to the fruits
+20200211_34_S.mel.mov;20200211;N;0.05;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:06;0:00:37;0:31;feeding;yes;yes;
+20200211_35_E.rub.mp4;20200211;N;0.05;Erithacus rubecula;3;3;3;0;0;0;no;0:00:04;0:01:27;1:23;feeding;yes;yes;tries to feed, but does not find a confortable position for the first minutes
+20200211_36_S.mel.mp4;20200211;N;0.05;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:04;0:00:45;0:41;feeding;yes;yes;
+20200211_4_E.rub_S.mel.MP4;20200211;L;0.85;Erithacus rubecula;2;2;2;0;0;0;no;0:00:19;0:00:29;0:10;feeding;yes;yes;chased away by Smel
+20200211_4_E.rub_S.mel.MP4;20200211;L;0.85;Sylvia melanocephala;;;;;;;;0:00:31;0:00:59;0:28;interacting;no;yes;territorial behaviour
+20200211_5_E.rub.MP4;20200211;L;0.85;Erithacus rubecula;3;3;3;0;0;0;no;0:00:03;0:00:33;0:30;feeding;yes;yes;GREAT CAPTURE!
+20200211_6_S.mel.MP4;20200211;L;0.8;Sylvia melanocephala;1;2;1;0;0;0;no;0:00:03;0:00:39;0:36;feeding;yes;yes;
+20200211_7_S.mel.MP4;20200211;L;0.8;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:05;0:00:28;0:23;feeding;yes;yes;
+20200211_8_S.mel.MP4;20200211;L;0.8;Sylvia melanocephala;1;1;1;0;0;0;yes;0:00:06;0:00:26;0:20;feeding;yes;yes;
+20200211_9_S.mel.MP4;20200211;L;0.8;Sylvia melanocephala;1;1;0;0;1;0;no;0:00:04;0:00:38;0:34;feeding;yes;yes;
+20200219_1_S.mel.mp4;20200219;O;0.3;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:03;0:00:41;0:38;feeding;yes;yes;
+20200303_10_E.rub.mp4;20200303;F;0.7;Erithacus rubecula;3;3;3;0;0;0;no;0:00:08;0:01:18;1:10;feeding;yes;yes;
+20200303_11_E.rub.mp4;20200303;F;0.7;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:10;0:00:44;0:34;feeding;yes;yes;
+20200303_12_S.mel.mp4;20200303;F;0.65;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:02;0:00:30;0:28;feeding;yes;yes;
+20200303_13_E.rub.mp4;20200303;F;0.65;Erithacus rubecula;1;2;1;0;0;0;no;0:00:03;0:00:30;0:27;feeding;yes;yes;
+20200303_14_S.mel.mp4;20200303;F;0.6;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:04;0:00:28;0:24;feeding;yes;yes;GREAT CAPTURE!
+20200303_15_E.rub.mp4;20200303;F;0.55;Erithacus rubecula;1;1;1;0;0;0;no;0:00:04;0:01:43;1:39;feeding;yes;yes;
+20200303_16_E.rub.mp4;20200303;F;0.5;Erithacus rubecula;1;1;1;0;0;0;no;0:00:05;0:00:25;0:20;feeding;yes;yes;
+20200303_17_S.mel.mp4;20200303;F;0.5;Sylvia melanocephala;2;2;1;0;1;0;no;0:00:01;0:00:34;0:33;feeding;yes;yes;
+20200303_18_E.rub.mp4;20200303;F;0.5;Erithacus rubecula;1;1;1;0;0;0;no;0:00:03;0:00:34;0:31;feeding;yes;yes;good capture
+20200303_8_E.rub.mp4;20200303;F;0.7;Erithacus rubecula;4;4;4;0;0;0;yes;0:00:01;0:02:40;2:39;feeding;yes;yes;
+20200303_9_S.mel.mp4;20200303;F;0.7;Sylvia melanocephala;2;4;2;0;0;0;no;0:00:03;0:00:46;0:43;feeding;yes;yes;there is fight with a E rub in the middle
+20201203_1_S.rubi.mp4;20201203;331;0.3;Saxicola rubicola;2;4;1;0;1;0;no;0:00:03;0:00:33;0:30;feeding;yes;yes;
+20201203_1_S.rubi.mp4;20201203;331;0.3;Phylloscopus collybita;;;;;;;;0:00:26;NA;NA;not_visible;unknown;no;
+20201203_10_S.rubi_S.mel.mp4;20201203;C;0.5;Saxicola rubicola;1;2;1;0;0;0;no;0:00:01;0:00:25;0:24;feeding;yes;yes;
+20201203_10_S.rubi_S.mel.mp4;20201203;C;0.5;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:24;0:01:00;0:36;feeding;yes;yes;
+20201203_11_S.rubi.mp4;20201203;C;0.5;Saxicola rubicola;3;3;3;0;0;0;no;0:00:01;0:00:12;0:11;feeding;yes;yes;
+20201203_12_S.rubi_E.rub.mp4;20201203;C;0.5;Saxicola rubicola;;;;;;;;0:00:03;0:00:55;0:52;perching / not_feeding;no;yes;leaves because of E rub
+20201203_13_E.rub.mp4;20201203;C;0.5;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:06;0:00:30;0:24;feeding;yes;yes;"Also in: ""20201203_13_E.rub_other_side.mp4"""
+20201203_14_E.rub.mp4;20201203;C;0.5;Erithacus rubecula;2;2;0;0;2;0;yes;0:00:05;0:00:21;0:16;feeding;yes;yes;
+20201203_2_S.rubi.mp4;20201203;331;0.3;Saxicola rubicola;1;NA;0;0;2;0;no;0:00:01;0:00:21;0:20;feeding;yes;yes;
+20201203_4_E.rub.mp4;20201203;B;0.5;Erithacus rubecula;1;2;0;0;1;0;no;0:00:02;0:00:12;0:10;feeding;yes;yes;
+20201203_5_E.rub.mp4;20201203;B;0.5;Erithacus rubecula;3;3;1;0;2;0;yes;0:00:03;0:00:46;0:43;feeding;yes;yes;
+20201203_6_S.rubi.mp4;20201203;B;0.5;Saxicola rubicola;1;1;1;0;0;0;yes;0:00:05;0:00:06;0:01;feeding;yes;yes;GREAT CAPTURE!
+20201203_7_E.rub_S.mel.mp4;20201203;C;0.5;Erithacus rubecula;3;3;2;0;1;0;yes;0:00:01;0:00:45;0:44;feeding;yes;yes;
+20201203_7_E.rub_S.mel.mp4;20201203;C;0.5;Sylvia melanocephala;;;;;;;;0:00:55;0:01:23;0:28;exploring;no;yes;
+20201203_8_S.rubi.mp4;20201203;C;0.5;Saxicola rubicola;1;3;1;0;0;1;no;0:00:03;0:05:03;5:00;feeding / perching;yes;yes;drops 1 fruits + 1 failed trial
+20201203_9_E.rub.mp4;20201203;C;0.5;Erithacus rubecula;3;3;3;0;0;0;no;0:00:12;0:00:48;0:36;feeding;yes;yes;"regurgitates 1 seed. Also in: ""20201203_9_2_E.rub_other_side.mp4"""
+20210128_1_S_mel.mp4;20210128;G;1;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:00;0:00:13;0:13;feeding;no;no;takes the whole pannicle when aiming for a black fruit
+20210128_10_S_mel.mp4;20210128;NA;NA;Sylvia melanocephala;;;;;;;;0:00:03;0:00:05;0:02;exploring;no;;
+20210128_2_S_mel.mp4;20210128;G;1;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:01;0:00:16;0:15;feeding;yes;yes;big fruit for the bird
+20210128_3_E_rub.mp4;20210128;H;0.4;Erithacus rubecula;4;4;3;0;1;0;yes;0:00:00;0:01:23;1:23;feeding;yes;yes;3 fruits in a row and then 1
+20210128_4_E_rub.mp4;20210128;H;0.4;Erithacus rubecula;2;2;1;0;1;0;no;0:00:02;0:00:19;0:17;feeding;yes;yes;
+20210128_5_E_rub.mp4;20210128;H;0.35;Erithacus rubecula;3;3;2;0;1;0;no;0:00:04;0:02:06;2:02;feeding;yes;yes;
+20210128_6_E_rub.mp4;20210128;H;0.3;Erithacus rubecula;2;2;1;0;1;0;yes;0:00:05;0:00:40;0:35;feeding;yes;no;1st takes one dry panicle and cosumes 1 dry black fruit, then takes a 2nd dry panicle with 3 dry red fruits and leaves with it.
+20210128_7_E_rub.mp4;20210128;H;0.3;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:08;0:01:03;0:55;feeding;yes;yes;wants to take the black fruit, but the whole panicle comes with it. Leaves flying with it.
+20210128_8_E_rub.mp4;20210128;H;0.3;Erithacus rubecula;1;1;1;0;0;0;yes;0:00:02;0:00:22;0:20;feeding;yes;yes;leaves with fruit on beak
+20210128_9_E_rub.mp4;20210128;H;0.3;Erithacus rubecula;2;2;2;0;0;0;no;0:00:03;0:01:07;1:04;feeding;yes;yes;hits the camera on purpose
+wrong_date_20191015_1_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;3;6;3;0;0;0;yes;0:00:00;0:00:51;0:51;feeding;yes;yes;tries to remove the fruits at least 6 times (3 failed trials)
+wrong_date_20191015_2_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:01;0:01:25;1:24;feeding;yes;yes;eriza las plumas
+wrong_date_20191015_2_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;1;1;1;0;0;0;no;0:02:39;0:03:00;0:21;feeding;yes;yes;
+wrong_date_20191015_3_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:07;0:00:27;0:20;feeding;yes;yes;
+wrong_date_20191015_4_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;1;1;1;0;0;0;no;0:00:03;0:00:22;0:19;feeding;yes;yes;GREAT CAPTURE!
+wrong_date_20191015_5_E.rub.mov;NA;F;0.2;Erithacus rubecula;1;2;1;0;0;0;yes;0:00:04;0:00:12;0:08;feeding;yes;yes;leaves with fruit on beak. Short frames of video are repeated ( bec 2 subvideos were merged).
+wrong_date_20191015_6_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;1;2;1;0;0;0;no;0:00:11;0:00:37;0:26;feeding;yes;yes;1 failes tria
+wrong_date_20191015_7_S.mel.mp4;NA;F;0.2;Sylvia melanocephala;2;2;2;0;0;0;yes;0:00:07;0:00:30;0:23;feeding;yes;yes;leaves with fruit on beak
+wrong_date_20191015_8_E.rub.mp4;NA;F;0.2;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:02;0:00:15;0:13;feeding;yes;yes;leaves with fruit on beak
+wrong_date_20191218_1_E.rub.mp4;NA;K;0.6;Erithacus rubecula;1;2;1;0;0;0;yes;0:00:13;0:00:31;0:18;feeding;yes;yes;The bird has been underneath the plant for 20 minutes, perching on a low branch. Visit starts counting when it moves from the branch and starts feeding activity. Leaves with black fruit on beak and panicle attached.
+wrong_date_20191218_2_E.rub.mp4;NA;K;0.6;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:04;0:00:08;0:04;feeding;yes;yes;leaves with fruit on beak. Stands on the cam?
+wrong_date_20191218_3_E.rub.mp4;NA;K;0.5;Erithacus rubecula;3;3;3;0;0;0;no;0:00:03;0:00:17;0:14;feeding;yes;yes;
+wrong_date_20191218_4_E.rub.mp4;NA;K;0.4;Erithacus rubecula;2;2;2;0;0;0;yes;0:00:02;0:00:04;0:02;feeding;yes;yes;good capture. Leaves with fruit on beak
+wrong_date_20191218_5_E.rub.mp4;NA;K;0.3;Erithacus rubecula;3;4;3;0;0;0;yes;0:00:02;0:00:13;0:11;feeding;yes;yes;eats panicle? leaves with fruit on beak
+wrong_date_20191218_6_E.rub.mp4;NA;K;0.3;Erithacus rubecula;1;1;1;0;0;0;no;0:00:18;0:01:23;1:05;feeding;yes;yes;
+wrong_date_20191218_7_E.rub.mp4;NA;K;0.2;Erithacus rubecula;3;3;3;0;0;0;yes;0:00:06;0:00:21;0:15;feeding;yes;yes;good capture
+wrong_date_20191218_8_E.rub.mp4;NA;K;0.2;Erithacus rubecula;3;5;3;0;0;0;yes;0:00:10;0:00:37;0:27;feeding;yes;yes;good capture
+wrong_date_20191226_1_E.rub.mp4;NA;P;0.6;Erithacus rubecula;5;5;5;0;0;0;yes;0:00:01;0:00:17;0:16;feeding;yes;yes;stays resting until 7:50
+wrong_date_20191226_2_S.mel.mp4;NA;P;0.5;Sylvia melanocephala;2;3;2;0;0;1;no;0:00:10;0:00:32;0:22;feeding;yes;yes;drops 1 fruits
+wrong_date_20191226_2_S.mel.mp4;NA;P;0.5;Sylvia melanocephala;1;1;0;0;1;0;no;0:00:59;0:01:26;0:27;feeding;yes;yes;

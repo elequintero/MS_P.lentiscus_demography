@@ -1,0 +1,68 @@
+---
+title: "Figure seed viability per plant"
+output: github_document
+---
+
+```{r, message=F}
+library(here)
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(ggrepel)
+library(tidylog)
+```
+
+Load data:
+
+```{r}
+viab.sum <- read.csv(here("data/crop_viab.csv")) %>% 
+  mutate(plant_id = as.factor(plant_id))
+```
+
+```{r, fig.width=10, message=F}
+viab.sum %>%
+  filter(year == "2019-20") %>%
+  mutate(site = recode(site, "madronas" = "LM", "puntal" = "EP")) %>%
+  mutate(unviab.p = 1 - viab.p) %>%
+  select(site, 
+         plant_id, 
+         fresh_fruits, 
+         unviab.p, 
+         viab.p, 
+         abort.p, 
+         partheno.p, 
+         wasp.p) %>%
+  pivot_longer(cols = c(viab.p, abort.p, partheno.p, wasp.p), 
+               names_to = "type", values_to = "fruit_type") %>%
+  mutate(type = factor(type,
+             levels = c("wasp.p", "abort.p", "partheno.p", "viab.p"))) %>%
+  mutate(type = recode(type, 
+                       "wasp.p" = "Wasp-predated", 
+                       "abort.p" = "Aborted", 
+                       "partheno.p" = "Parthenocarpic", 
+                       "viab.p" = "Viable")) %>%
+  ggplot(aes(x = reorder(plant_id, unviab.p), 
+             y = fruit_type, 
+             fill = type, 
+             label = fresh_fruits)) +
+  geom_bar(stat = "identity") + 
+  scale_fill_manual(values = c("#fdae61", "#fee090" ,"#ffffbf", "#4575b4")) +
+  geom_text(aes(y=1.05, label = fresh_fruits), 
+            size=2.5, angle=90, color = "grey40") +
+  geom_hline(aes(yintercept = mean(fruit_type[type=="Viable"])),
+             color = "#4575b4", linetype = 2) +
+  theme_bw() + 
+  labs(x = NULL, y = "Proportion of seeds", fill = NULL) + 
+  theme(axis.text.x = element_blank(), 
+        axis.ticks.x = element_blank(), 
+        legend.position = "bottom", 
+        panel.grid = element_blank()) + 
+  scale_y_continuous(limits = c(0,1.05), 
+                     expand = expansion(mult = c(0, .05))) +
+  facet_wrap(~site, scales="free_x") 
+```
+
+```{r}
+ggsave(here("figs/fig_viab_plants.pdf"), device = "pdf", width = 9, height = 4)
+```
+

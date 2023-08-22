@@ -48,3 +48,10 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 .DS_Store
+
+# Code non-included in MS
+code/Calc_propagules_bird_mh.Rmd
+code/Calc_propagules_bird_mh.html
+data/propagules_by_bird_and_MH_EP.rds
+data/propagules_by_mh_EP.rds
+

@@ -1,0 +1,225 @@
+---
+title: "Seed rain diversity"
+author: "Elena Quintero"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+```{r}
+library(here)
+library(tidyverse)
+library(magrittr)
+library(ggrepel)
+library(hillR)
+library(vegan)
+
+theme_set(theme_minimal())
+```
+
+Load sampling point data:
+```{r}
+sampling_station <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
+#glimpse(sampling_station)
+
+#Total sampling effort (m2) per MH:
+mh_sampling_eff <- sampling_station %>%
+  group_by(mh, mh_id) %>%
+  summarise(ind_samp = first(sample_effort)) %>%
+  group_by(mh) %>%
+  summarise(samp_eff_m2 = sum(ind_samp))
+
+sampling_station %<>% left_join(mh_sampling_eff) %>%
+  mutate(seeds_m2_mh = n_seeds/samp_eff_m2) 
+```
+
+Convert data to matrix (where cols are sampling points, rows are birds)
+```{r}
+seed_traps <- sampling_station %>% 
+  select(bird_sp, mh_id, seeds_m2_mh) %>%
+  pivot_wider(names_from = mh_id, values_from = seeds_m2_mh) %>%
+  filter(!is.na(bird_sp)) %>%
+  filter(!bird_sp == "Alectoris rufa") 
+```
+
+
+Number of traps with seeds:
+```{r}
+seed_traps_binary <- seed_traps %>% 
+  mutate_if(is.numeric, ~1 * (. != 0)) %>%
+  replace(is.na(.), 0) %>%
+  rowwise() %>%
+  mutate(sum = sum(across(where(is.numeric))),
+         p.traps.w.seed = sum/(ncol(seed_traps)-1))
+
+traps.w.seed <- seed_traps_binary %>%
+  select(bird_sp, p.traps.w.seed)
+
+traps.w.seed
+```
+
+```{r}
+mat.seed.traps <- as.matrix(seed_traps %>% 
+                              replace(is.na(.), 0) %>%
+                              column_to_rownames("bird_sp"))
+
+binary.mat.seed.traps <- as.matrix(seed_traps_binary %>% 
+                                     select(-c(sum, p.traps.w.seed)) %>%    
+                                     column_to_rownames(var = "bird_sp"))
+```
+
+Hill numbers:
+```{r}
+#The first three Hill numbers: q = 0 (species richness), q = 1 (the exponential of Shannon’s entropy index), and q = 2 (the inverse of Simpson’s concentration index)
+library(hillR)
+q0 <- hill_taxa(mat.seed.traps, q = 0) # taxonomic alpha diversity
+q1 <- hill_taxa(mat.seed.traps, q = 1) # taxonomic alpha diversity
+q2 <- hill_taxa(mat.seed.traps, q = 2) # taxonomic alpha diversity
+q3 <- hill_taxa(mat.seed.traps, q = 3) # taxonomic alpha diversity
+
+hills <- as.data.frame(cbind(q0, q1, q2, q3)) %>% 
+  rownames_to_column("bird_sp") 
+
+hills
+
+write_csv(hills, here("data/seed_trap_diversity_hills.csv"))
+```
+
+```{r}
+mycols <- viridis::viridis(8)
+main_sp <- hills %>% slice_max(q0, n=8) %>% arrange(desc(bird_sp))
+names(mycols) <- unique(main_sp$bird_sp)
+
+pd = position_jitter(0.01)
+
+hill.plot <- hills %>% 
+  select(bird_sp, starts_with("q")) %>%
+  select(-q3) %>%
+  pivot_longer(cols = starts_with("q"), 
+               names_to = "hill_no", values_to = "hill_value") %>%
+  mutate(hill_no = recode(hill_no, "q0" = "q = 0", "q1" = "q = 1",
+                          "q2" = "q = 2"))
+
+ggplot(hill.plot, aes(x = hill_no, y = hill_value, color = bird_sp)) + 
+  geom_line(aes(group = bird_sp), position = pd) +
+  geom_point(size =3, alpha =0.75, position = pd) + 
+  scale_color_manual(values=mycols) +
+  labs(x = NULL, y= "Hill Diversity") +
+  theme(legend.position = "none",
+        panel.grid.major.x = element_blank()) +
+  geom_text_repel(data = hill.plot %>% filter(hill_no == "q = 2") %>%
+                                  filter(bird_sp %in% main_sp$bird_sp),
+            aes(label = bird_sp, x = hill_no, y = hill_value), 
+            nudge_x = 0.25, direction = "y", hjust = "left", box.padding = 0.1,
+            fontface = "italic") +
+  scale_y_continuous(n.breaks = 9) +
+  expand_limits(x = c(4, 6))
+```
+
+```{r}
+H_rank <- hills %>%
+  mutate(shannon = log(q1)) %>%
+  mutate(H_rank = rank(desc(shannon))) %>% 
+  arrange(H_rank) %>%
+  mutate(order = order(H_rank))
+
+ggplot(H_rank,
+      aes(x = fct_reorder(bird_sp, H_rank),
+          y = shannon), group = 1) + 
+  geom_point(size = 4) + 
+  geom_path(aes(x=order, y = shannon)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust=0.5)) +
+  labs(x = NULL, y = "Shannon index (H)")
+```
+
+Split by MH:
+```{r}
+mh_list = unique(sampling_station$mh)
+bird.trap.diversity.mh <- data.frame()
+
+for (i in mh_list) {
+  mh_to_select <- sampling_station %>%
+    filter(mh == i) %>%
+    group_by(mh, mh_id) %>%
+    summarise()
+  
+  mh_selected <- unique(mh_to_select$mh_id)
+  
+  mat.mh_traps <- seed_traps %>% 
+                  replace(is.na(.), 0) %>%
+                  column_to_rownames("bird_sp") %>%
+                  select(all_of(mh_selected)) %>% 
+                  filter(rowSums(across(where(is.numeric)))!=0)
+
+  H_mh <- diversity(mat.mh_traps, index = "shannon")
+  a <- as.data.frame(H_mh) %>% 
+          rownames_to_column("bird_sp") %>% 
+          mutate(mh = i)
+    
+  bird.trap.diversity.mh <- rbind(bird.trap.diversity.mh,  a)
+}
+
+bird.trap.diversity.mh
+```
+
+Number of bird species dispersing to each MH
+```{r}
+unique(sampling_station$bird_sp)
+
+bird.trap.diversity.mh %>% group_by(mh) %>% count()
+
+# sampling_station %>% 
+#   filter(!is.na(bird_sp)) %>%
+#   filter(bird_sp != "Alectoris rufa") %>%
+#   group_by(mh) %>% 
+#   summarise(n_distinct(bird_sp))
+```
+
+Cumulative Shannon index by birds separated by MH
+```{r}
+H_rank_mh <- bird.trap.diversity.mh %>%
+  group_by(mh) %>%
+  mutate(H_rank = rank(desc(H_mh))) %>% 
+  mutate(norm_H_rank = H_rank / max(H_rank)) %>%
+  arrange(H_rank) %>%
+  mutate(order = order(H_rank)) %>%
+  mutate(mh = factor(mh, levels = c("PP", "PL", "FR", "NF", "OA"))) %>%
+  mutate(bird_sp = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",
+                       "Sylvia undata" = "Curruca undata",
+                       "Sylvia communis" = "Curruca communis",
+                       "Sylvia hortensis" = "Curruca hortensis",
+                       "Sylvia cantillans" = "Curruca iberiae")) %>%
+  separate(bird_sp, into = c("genus", "sp"), remove = FALSE) %>% 
+  mutate(bird_sp_short = paste0(str_sub(genus, end = 1), ".", str_sub(sp, end = 3))) %>% 
+  mutate(bird_sp_short = ifelse(bird_sp_short == "NA.NA", NA, bird_sp_short)) %>% 
+  select(-genus, -sp)
+
+mh_cols <- c("FR"="#8d0060", "PP"="#cadd79", "PL"="#7186ff","NF"="#fd863e", "OA"="#843600")
+
+ggplot(H_rank_mh, aes(x = order, y = H_mh)) + 
+  geom_text_repel(data = H_rank_mh %>% filter(H_mh > 0),
+                  aes(label = bird_sp_short), seed = 2, 
+                  size = 4, box.padding = 0.3, fontface = "italic",
+                  direction = "y", hjust = -0.5) +
+  geom_point(aes(color = mh), size = 4, alpha = .7) + 
+  geom_path(aes(color = mh)) +
+  scale_color_manual(values = mh_cols) +
+  theme_bw() +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.minor.x =  element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "none",
+        axis.text.y = element_text(size = 13),
+        axis.title = element_text(size = 13),
+        strip.text = element_text(size = 14),
+        ) +
+  facet_wrap(~mh, scales = "free_x", nrow = 1) +
+  labs(y = "Shannon index H", x = "Rank")
+
+#ggsave(here("figs_code/fig_bird_mh_trap_Shannon.pdf"), width = 12, height = 4)
+```

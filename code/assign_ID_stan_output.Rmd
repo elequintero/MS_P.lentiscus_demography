@@ -1,0 +1,95 @@
+---
+title: "Include bird and plant IDs in dataset"
+output: github_document
+date: "`r Sys.Date()`"
+---
+
+```{r }
+library(here)
+library(readr)
+library(tidyverse)
+suppressPackageStartupMessages(library(tidylog))
+```
+
+Extract plant and bird names:
+
+```{r}
+cons.mat <- read.csv(here("data/consumption_mat.csv"))
+
+bird_ID <- as.data.frame(colnames(cons.mat[-c(1,2)])) %>%
+  rename(bird_sp="colnames(cons.mat[-c(1, 2)])") %>% 
+  arrange(bird_sp) %>%
+  mutate(n_bird = row_number()) 
+
+plant_ID <- cons.mat %>% 
+  dplyr::select(n_plant = X, plant_id=id_plant)
+```
+
+
+
+## Bird Viability dataset
+
+```{r}
+bird.viab <- readRDS(here("data/bird.Pviab.rds"))
+
+bird.viab.long <- bird.viab %>% 
+  pivot_longer(cols=colnames(.), names_to="bird", values_to="viab") %>%  
+  mutate(n_bird=str_match_all(bird, "(?<=\\[).+?(?=\\])")) %>% 
+  mutate(n_bird=as.integer(n_bird)) %>%
+  left_join(bird_ID) %>% 
+  dplyr::select(-bird)
+
+saveRDS(bird.viab.long, here("data/bird.Pviab_IDs.rds"))
+file.remove(here("data/bird.Pviab.rds"))
+```
+
+
+
+## Plant Viability dataset
+
+```{r}
+plant.viab.post <- readRDS(here("data/plant.Pviab.rds"))
+
+plant.viab.long <- plant.viab.post %>% 
+  pivot_longer(cols=colnames(.), names_to="plant", values_to="viab") %>%  
+  mutate(n_plant=str_match_all(plant, "(?<=\\[).+?(?=\\])")) %>% 
+  mutate(n_plant=as.integer(n_plant)) %>%
+  left_join(plant_ID) %>% 
+  dplyr::select(-plant)
+
+saveRDS(plant.viab.long, here("data/plant.Pviab_IDs.rds"))
+file.remove(here("data/plant.Pviab.rds"))
+```
+
+
+
+## Number of viable fruits consumed dataset:
+
+```{r}
+p.cons.v.post <- readRDS(here("data/plant.bird.Nviab.total.rds"))
+
+crop <- read.csv(here("data/crop_ind_plants.csv"), comment.char = "#", sep=";") %>%
+  dplyr::select(plant_id, crop=initcrop)
+
+cons.long <- p.cons.v.post %>% 
+  pivot_longer(cols=colnames(.), names_to="int", values_to="fru") %>%
+  mutate(n_plant=str_match_all(int, "(?<=\\[).+?(?=\\,)")) %>% 
+  mutate(n_plant=as.integer(n_plant)) %>%
+  left_join(plant_ID) %>%
+  mutate(n_bird=str_match_all(int, "(?<=\\,).+?(?=\\])")) %>%
+  mutate(n_bird=as.integer(n_bird)) %>%
+  left_join(bird_ID) %>%
+  left_join(crop) %>%
+  dplyr::select(-c(int, n_plant, n_bird)) %>%
+  relocate(fru, .after = bird_sp)
+
+saveRDS(cons.long, here("data/plant.bird.Nviab.long_IDs.rds"))
+file.remove(here("data/plant.bird.Nviab.total.rds"))
+```
+
+
+```{r}
+sessioninfo::session_info()
+```
+
+
