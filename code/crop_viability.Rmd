@@ -136,7 +136,9 @@ viab.for.analysis <- viab.final %>%
   mutate(black = black_v+black_u, 
          red = red_v+red_u,
          viab = black_v+red_v, 
-         non.viab = black_u+red_u) 
+         non.viab = black_u+red_u) %>%
+  rename(id_plant = plant_id,
+         total.fruits = total_fruits)
 
 write.csv(viab.for.analysis, here("data/crop_viab.csv"))
 ```

@@ -19,7 +19,7 @@ viab.crop <- read.csv(here ("data/crop_viab.csv"))
 
 ```{r}
 viab.crop %>% 
-  mutate(viab.p=viab/total_fruits) %>% summarise(mean(viab.p), sd(viab.p))
+  mutate(viab.p=viab/total.fruits) %>% summarise(mean(viab.p), sd(viab.p))
 ```
 
 Viability by color summary:
