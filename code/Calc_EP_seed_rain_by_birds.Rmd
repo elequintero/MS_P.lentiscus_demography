@@ -29,7 +29,7 @@ Load bird's viability:
 ```{r}
 bird.viab <- readRDS(here("data/bird.Pviab_IDs.rds")) %>%
   mutate(bird_sp = str_replace(bird_sp, "_", " ")) %>%
-  select(-n_bird) %>% 
+  dplyr::select(-n_bird) %>% 
   arrange(bird_sp)
 
 bird_viab_sum <- bird.viab %>%
@@ -46,7 +46,7 @@ Load mh cover at EP site:
 ```{r}
 mh_cover <- read.csv(here("data/mh_cover.csv"))
 
-mh_cover %<>% select(mh = microhab, cover.p = cover.per) %>%
+mh_cover %<>% dplyr::select(mh = microhab, cover.p = cover.per) %>%
   mutate(mh.cover.m2 = 41000 * cover.p)
   
 # El Puntal area (Mancha del Rabicano) where we have worked measures around 41000 sq meters (4.1 hectares)
@@ -123,7 +123,7 @@ birds_only_cams <- setdiff(unique(n.seed.birds$bird_sp), unique(bc$bird_sp))
 birds_only_cams
 
 total.bird.mh <- n.seed.birds %>%
-  select(bird_sp, mh, seeds.mh.bird) %>%
+  dplyr::select(bird_sp, mh, seeds.mh.bird) %>%
   pivot_wider(names_from = mh, values_from = seeds.mh.bird, values_fn = list) %>%
   tidyr::unnest(cols = c(FR, NF, OA, PL, PP)) %>%
   rowwise() %>%
@@ -176,7 +176,7 @@ sum(cont.viab.seed.rain.sum$median.p.disp.viab) #median proportions closely add 
 Merge both datasets and clean:
 ```{r}
 bird.seed.rain <- cont.seed.rain %>% 
-  select(bird_sp, 
+  dplyr::select(bird_sp, 
          total.seeds.bird,
          total.seeds,
          p.disp, 
