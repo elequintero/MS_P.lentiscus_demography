@@ -12,11 +12,6 @@ render("code/stan_model_priors.Rmd")
 "code/stan_calc_script.R" #run manually
 render("code/assign_ID_stan_output.Rmd") #add bird and plant ID to code above
 
-
-# Calculate prob. of microhabitat use for El Puntal site
-#### This model is in Pistacia effectiveness repo - " (analysis_clean/Prob_MH_use_cover.Rmd)
-#### Output is in data folder (files "Nseed.mh.cover.post.rds" and "Pdisperse.bird.mh.cover.rds")
-
 # Estimate seed rain by birds at EP site
 render("code/Calc_EP_seed_rain_by_birds.Rmd")
 
@@ -33,12 +28,12 @@ render("code/Prob.surv.2nd.summer.Rmd")
 
 # Calculate overall microhabitat quality
 #### concatenate Prob.use + Prob.escape.pred + Prob.emer + Prob.surv1 + Prob.surv2
-render("code/prep_mh_quality.Rmd") 
+render("code/prep_mh_quality.Rmd")
 
 
 # Estimations propagules at along stages
 render("code/Calc_propagules_plant_bird.Rmd") # by plant and bird - ATTENTION: Takes a long time!
-render("code/Calc_propagules_POP_bird_mh.Rmd") # by bird and mh for the whole population 
+render("code/Calc_propagules_POP_bird_mh.Rmd") # by bird and mh for the whole population
 
 # With these codes we extract the number of propagules passing to each demographic
 # stage, we calculate these for plants, birds and microhabitats. The resulting data are 
@@ -62,7 +57,7 @@ render("code/model_crop_and_viab_effects_on_dispersal.Rmd")
 render("code/seed_rain_diversity.Rmd")
 
 # General results (medians, CIs, correlations,... etc to communicate in the MS)
-# render("code/General_results.Rmd")
+render("code/MS_results.Rmd")
 
 
 
@@ -90,3 +85,4 @@ render("figs_code/fig_stage_transition_plants.Rmd")
 
 # Recruitment by plant and bird
 render("figs_code/fig_recruitment_plants.Rmd")
+
