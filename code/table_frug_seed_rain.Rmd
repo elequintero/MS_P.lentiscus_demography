@@ -35,7 +35,7 @@ bird_propagules <- readRDS(here("data/propagules_by_bird_EP.rds")) %>%
 
 ```{r}
 bird.total.cons <- bird_propagules |> 
-  select(bird_sp, fru.cons) |> 
+  dplyr::select(bird_sp, fru.cons) |> 
   group_by(bird_sp) |> 
   mutate(iteration = 1:1000)
 ```
@@ -92,7 +92,7 @@ seed.rain.sum <- seed.rain.EP %>%
             CI.0.90.p.disp.viab = quantile(p.disp.viab, probs = 0.90))
 
 seed.rain.sum %>%
-  select(bird_sp, starts_with("median"))
+  dplyr::select(bird_sp, starts_with("median"))
 
 sum(seed.rain.sum$median.p.disp.viab) #sum of median proportions (close to 1)
 ```
@@ -124,7 +124,7 @@ recruitment <- readRDS(here("data/propagules_by_bird_EP.rds"))
 
 ```{r}
 p.recruitment <- recruitment %>%
-  select(bird_sp, bird.total.recruits = recruits) %>%
+  dplyr::select(bird_sp, bird.total.recruits = recruits) %>%
   mutate(bird_sp = str_replace(bird_sp, "_", " ")) %>%
   group_by(bird_sp) %>%
   mutate(iter = c(1:1000)) %>%
@@ -155,7 +155,7 @@ sum(recruitment.sum$median.p.recruit) #good close to 1!
 sampling_station <- read_csv(here("data/seed_rain_by_sampling_point.csv"))
 
 binary.mat.seed.traps <- sampling_station %>% 
-  select(bird_sp, mh_id, n_seed_m2) %>%
+  dplyr::select(bird_sp, mh_id, n_seed_m2) %>%
   pivot_wider(names_from = mh_id, values_from = n_seed_m2) %>%
   filter(!is.na(bird_sp)) %>% 
   replace(is.na(.), 0) %>%
@@ -165,7 +165,7 @@ traps.w.seed <- binary.mat.seed.traps %>%
   rowwise() %>%
   mutate(sum = sum(across(where(is.numeric))),
          p.traps.w.seed = sum/(length(unique(sampling_station$mh_id)))) %>%
-  select(bird_sp, n_traps_w_seeds = sum, p.traps.w.seed)
+  dplyr::select(bird_sp, n_traps_w_seeds = sum, p.traps.w.seed)
 
 traps.w.seed
 ```
@@ -184,7 +184,6 @@ hills
 table <- fru.cons.bird.sum %>%
   left_join(seed.rain.sum) %>% 
   left_join(recruitment.sum) %>%
-  #select(-starts_with("CI")) %>%
   left_join(p.lentisc.diet[,c(1,5)]) %>%
   left_join(traps.w.seed[-2]) %>%
   left_join(hills) %>%
@@ -196,7 +195,7 @@ table <- fru.cons.bird.sum %>%
 
 ```{r}
 table.ms <- table %>%
-  select(bird_sp, 
+  dplyr::select(bird_sp, 
          median.p.cons , CI.0.10.p.cons, CI.0.90.p.cons,
          median.p.disp, CI.0.10.p.disp, CI.0.90.p.disp,
          median.p.disp.viab, CI.0.10.p.disp.viab, CI.0.90.p.disp.viab,
@@ -221,7 +220,7 @@ table.ms <- table %>%
          per.traps.w.seed = p.traps.w.seed * 100, 
          per.pistacia.seed = p.pistacia.seed *100
          ) %>%
-  select(bird_sp,
+  dplyr::select(bird_sp,
          p.cons, p.disp, p.disp.viab, p.recruitment,
          per.traps.w.seed, per.pistacia.seed) %>%
   mutate(bird_sp = recode(bird_sp, "Sylvia melanocephala" = "Curruca melanocephala",

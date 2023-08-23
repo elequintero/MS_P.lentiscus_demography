@@ -54,7 +54,7 @@ Boxplot for stage transition:
 1. prepare dataset
 ```{r}
 plant.data.sum.plot <- plant.data.sum %>% 
-  select(-c(cropsize.viab, fru.viab.cons)) %>%
+  dplyr::select(-c(cropsize.viab, fru.viab.cons)) %>%
   pivot_longer(cols = c(cropsize, 
                         fru.cons, 
                         disp.seeds,

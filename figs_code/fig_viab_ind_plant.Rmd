@@ -16,7 +16,7 @@ Load data:
 
 ```{r}
 viab.sum <- read.csv(here("data/crop_viab.csv")) %>% 
-  mutate(plant_id = as.factor(plant_id))
+  mutate(id_plant = as.factor(id_plant))
 ```
 
 ```{r, fig.width=10, message=F}
@@ -24,8 +24,8 @@ viab.sum %>%
   filter(year == "2019-20") %>%
   mutate(site = recode(site, "madronas" = "LM", "puntal" = "EP")) %>%
   mutate(unviab.p = 1 - viab.p) %>%
-  select(site, 
-         plant_id, 
+  dplyr::select(site, 
+         id_plant, 
          fresh_fruits, 
          unviab.p, 
          viab.p, 
@@ -41,7 +41,7 @@ viab.sum %>%
                        "abort.p" = "Aborted", 
                        "partheno.p" = "Parthenocarpic", 
                        "viab.p" = "Viable")) %>%
-  ggplot(aes(x = reorder(plant_id, unviab.p), 
+  ggplot(aes(x = reorder(id_plant, unviab.p), 
              y = fruit_type, 
              fill = type, 
              label = fresh_fruits)) +

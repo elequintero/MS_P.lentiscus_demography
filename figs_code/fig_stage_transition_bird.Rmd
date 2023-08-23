@@ -44,7 +44,7 @@ Prepare data for plot:
 ```{r}
 bird.data.plot <- bird.data %>% 
   mutate(crop = crop_available) %>%
-  select(-c(fru.viab.cons, fru.viab.disp)) %>%
+  dplyr::select(-c(fru.viab.cons, fru.viab.disp)) %>%
   cbind(viab = bird.viab[1]) %>%
   mutate(fru.viab.disp = fru.disp * viab) %>% #recalculate viable seeds dispersed
   pivot_longer(cols = c(crop, 
@@ -83,7 +83,7 @@ Aggregate by bird families:
 
 ```{r}
 propagules.bird.family <- bird.data.plot %>% 
-  select(-c(bird_size_beh, bird_common)) %>%
+  dplyr::select(-c(bird_size_beh, bird_common)) %>%
   group_by(bird_family, bird_sp, stage) %>%
   mutate(iter = c(1:1000)) %>%
   group_by(bird_family, stage, iter) %>%

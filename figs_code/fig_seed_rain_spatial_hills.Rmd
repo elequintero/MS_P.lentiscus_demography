@@ -81,7 +81,7 @@ names(mycols) <- unique(main_sp$bird_sp)
 pd = position_jitter(0.01)
 
 hill.plot <- hills %>% 
-  select(bird_sp, starts_with("q")) %>%
+  dplyr::select(bird_sp, starts_with("q")) %>%
   pivot_longer(cols = starts_with("q"), 
                names_to = "hill_no", values_to = "hill_value") %>%
   mutate(hill_no = recode(hill_no, "q0" = "q = 0", "q1" = "q = 1", "q2" = "q = 2")) %>%

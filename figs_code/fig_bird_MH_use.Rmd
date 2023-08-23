@@ -80,7 +80,7 @@ mh_cover <- read.csv(here("data/mh_cover.csv"))
 mh_cover
 
 add_line <- mh_cover %>%
-  select(mh = microhab,
+  dplyr::select(mh = microhab,
          MH.use = cover.per) %>%
   mutate(bird_sp = "MH COVER",
          fru.disp = sum(sum.fru.disp.bird$fru.disp)) %>%
