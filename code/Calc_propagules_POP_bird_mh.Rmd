@@ -68,7 +68,7 @@ This info is based on seeds collected in seed-traps (and extrapolated to other b
 ```{r}
 seed.rain.EP.wide <- overall.seed.rain %>% 
   ungroup() %>%
-  select(mh, bird_sp, seeds.mh.bird, overall.seed.disp) %>%
+  dplyr::select(mh, bird_sp, seeds.mh.bird, overall.seed.disp) %>%
   pivot_wider(names_from = mh, values_from = seeds.mh.bird, values_fn = list) %>%
   unnest(cols = c(FR, NF, OA, PL, PP)) %>%
   arrange(bird_sp)
@@ -79,7 +79,7 @@ seed.rain.EP.wide <- overall.seed.rain %>%
 ```{r}
 bird.pviab <- readRDS(here("data/bird.Pviab_IDs.rds")) %>%
   arrange(bird_sp) %>%
-  select(bird_sp, viab)
+  dplyr::select(bird_sp, viab)
 
 glimpse(bird.pviab)
 ```

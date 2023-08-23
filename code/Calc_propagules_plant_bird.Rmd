@@ -48,7 +48,7 @@ cons.missing.int <- setdiff(unique(cons.viab$int), unique(Nfruit.cons$int))
 cons.viab.obs <- cons.viab %>% 
   filter(!int %in% cons.missing.int) %>% 
   arrange(int) %>% 
-  select(int2 = int, 
+  dplyr::select(int2 = int, 
          fru.cons.viab = fru)
 
 #Check we are no removing interactions with fruit consumption:
@@ -58,23 +58,30 @@ cons.viab %>%
 #the sum of all these removed observations is 0 - good
 ```
 
-Merge total fruit consumed and viable fruits consumed
-```{r}
-cons.full <- Nfruit.cons %>% 
-  bind_cols(cons.viab.obs) %>%
-  select(-c(iter, int2))
-
-head(cons.full)
-```
-
 
 ### 3. PROB TO ESCAPE BIRD PREDATION
 
 ```{r}
-P.escape.bird <-  readRDS(here("data/P.bird.escape.pred.rds")) %>%
-  arrange(int_pred)
+prob.escape <- readRDS(here("data/Pbird.escape.pred.rds"))
 
-glimpse(P.escape.bird)
+glimpse(prob.escape)
+```
+
+
+Merge total fruit consumed, viable fruits consumed, p. escape bird predation
+```{r}
+cons.full <- Nfruit.cons %>% 
+  bind_cols(cons.viab.obs) %>%
+  dplyr::select(-c(iter, int2)) %>%
+  group_by(bird_sp) %>% 
+  mutate(Prob.escape.bird.pred = ifelse(
+    bird_sp %in% c("Chloris_chloris", "Pyrrhula_pyrrhula", 
+                   "Fringilla_coelebs", "Coccothraustes_coccothraustes"),
+    prob.escape$prob.escape, 
+    1)) %>% 
+  ungroup()
+
+head(cons.full)
 ```
 
 
@@ -84,7 +91,7 @@ glimpse(P.escape.bird)
 P.use.EP <- readRDS(here("data/Pdisperse.bird.mh.cover.rds"))
 
 P.use.EP.wide <- P.use.EP %>% 
-  select(bird_sp, mh, Prob.bird.mh) %>%
+  dplyr::select(bird_sp, mh, Prob.bird.mh) %>%
   mutate(mh = paste0("EP.Prob.bird.mh_", mh)) %>%
   pivot_wider(names_from = mh, values_from = Prob.bird.mh, values_fn = list) %>%
   tidyr::unnest(cols = starts_with("EP.")) %>%
@@ -99,7 +106,7 @@ glimpse(P.use.EP.wide)
 P.use.general <- readRDS(here("data/Pdisperse.bird.mh.rds"))
 
 P.use.general.wide <- P.use.general %>% 
-  select(bird_sp, mh, Prob.bird.mh) %>%
+  dplyr::select(bird_sp, mh, Prob.bird.mh) %>%
   mutate(mh = paste0("Prob.bird.mh_", mh)) %>%
   pivot_wider(names_from = mh, values_from = Prob.bird.mh, values_fn = list) %>%
   tidyr::unnest(cols = starts_with("Prob.")) %>%
@@ -126,8 +133,7 @@ glimpse(mh_quality_rep)
 
 ```{r}
 dataset <- cons.full %>% 
-  bind_cols(P.escape.bird, mh_quality_rep) %>%
-  select(-c(int_pred)) %>%
+  bind_cols(mh_quality_rep) %>%
   group_by(bird_sp, id_plant) %>%
   mutate(iter = c(1:1000)) %>%
   left_join(P.use.EP.wide, by = c("bird_sp", "iter")) %>%
@@ -268,7 +274,7 @@ merge:
 
 ```{r}
 bird <- bird.total.cons %>% 
-  select(bird_sp, fru.cons) %>%
+  dplyr::select(bird_sp, fru.cons) %>%
   bind_cols(fru.viab.cons = bird.viab.cons$fru.viab.cons) %>%
   bind_cols(fru.disp = bird.total.disp$fru.disp) %>%
   bind_cols(fru.viab.disp = bird.viab.disp$fru.viab.disp) %>%
@@ -282,7 +288,7 @@ saveRDS(bird, here("data/propagules_by_bird.rds"))
 
 ```{r}
 bird.EP <- bird.total.cons.EP %>% 
-  select(bird_sp, fru.cons) %>%
+  dplyr::select(bird_sp, fru.cons) %>%
   bind_cols(fru.viab.cons = bird.viab.cons.EP$fru.viab.cons) %>%
   bind_cols(fru.disp = bird.total.disp.EP$fru.disp) %>%
   bind_cols(fru.viab.disp = bird.viab.disp.EP$fru.viab.disp) %>%
