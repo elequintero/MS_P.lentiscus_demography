@@ -40,7 +40,7 @@ sampling_station %<>% left_join(mh_sampling_eff) %>%
 Convert data to matrix (where cols are sampling points, rows are birds)
 ```{r}
 seed_traps <- sampling_station %>% 
-  select(bird_sp, mh_id, seeds_m2_mh) %>%
+  dplyr::select(bird_sp, mh_id, seeds_m2_mh) %>%
   pivot_wider(names_from = mh_id, values_from = seeds_m2_mh) %>%
   filter(!is.na(bird_sp)) %>%
   filter(!bird_sp == "Alectoris rufa") 
@@ -57,7 +57,7 @@ seed_traps_binary <- seed_traps %>%
          p.traps.w.seed = sum/(ncol(seed_traps)-1))
 
 traps.w.seed <- seed_traps_binary %>%
-  select(bird_sp, p.traps.w.seed)
+  dplyr::select(bird_sp, p.traps.w.seed)
 
 traps.w.seed
 ```
@@ -68,7 +68,7 @@ mat.seed.traps <- as.matrix(seed_traps %>%
                               column_to_rownames("bird_sp"))
 
 binary.mat.seed.traps <- as.matrix(seed_traps_binary %>% 
-                                     select(-c(sum, p.traps.w.seed)) %>%    
+                                     dplyr::select(-c(sum, p.traps.w.seed)) %>%    
                                      column_to_rownames(var = "bird_sp"))
 ```
 
@@ -97,8 +97,8 @@ names(mycols) <- unique(main_sp$bird_sp)
 pd = position_jitter(0.01)
 
 hill.plot <- hills %>% 
-  select(bird_sp, starts_with("q")) %>%
-  select(-q3) %>%
+  dplyr::select(bird_sp, starts_with("q")) %>%
+  dplyr::select(-q3) %>%
   pivot_longer(cols = starts_with("q"), 
                names_to = "hill_no", values_to = "hill_value") %>%
   mutate(hill_no = recode(hill_no, "q0" = "q = 0", "q1" = "q = 1",
@@ -152,7 +152,7 @@ for (i in mh_list) {
   mat.mh_traps <- seed_traps %>% 
                   replace(is.na(.), 0) %>%
                   column_to_rownames("bird_sp") %>%
-                  select(all_of(mh_selected)) %>% 
+                  dplyr::select(all_of(mh_selected)) %>% 
                   filter(rowSums(across(where(is.numeric)))!=0)
 
   H_mh <- diversity(mat.mh_traps, index = "shannon")
@@ -196,7 +196,7 @@ H_rank_mh <- bird.trap.diversity.mh %>%
   separate(bird_sp, into = c("genus", "sp"), remove = FALSE) %>% 
   mutate(bird_sp_short = paste0(str_sub(genus, end = 1), ".", str_sub(sp, end = 3))) %>% 
   mutate(bird_sp_short = ifelse(bird_sp_short == "NA.NA", NA, bird_sp_short)) %>% 
-  select(-genus, -sp)
+  dplyr::select(-genus, -sp)
 
 mh_cols <- c("FR"="#8d0060", "PP"="#cadd79", "PL"="#7186ff","NF"="#fd863e", "OA"="#843600")
 
@@ -221,5 +221,5 @@ ggplot(H_rank_mh, aes(x = order, y = H_mh)) +
   facet_wrap(~mh, scales = "free_x", nrow = 1) +
   labs(y = "Shannon index H", x = "Rank")
 
-#ggsave(here("figs_code/fig_bird_mh_trap_Shannon.pdf"), width = 12, height = 4)
+#ggsave(here("figs/fig_bird_mh_trap_Shannon.pdf"), width = 12, height = 4)
 ```
