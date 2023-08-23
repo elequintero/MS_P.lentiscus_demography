@@ -55,26 +55,3 @@ viab.disp %>%
   summarise(total.sink = sum(sink), total.float = sum(float)) %>%
   mutate(p.viab = total.sink / (total.sink + total.float))
 ```
-
-
-## Fruit color preference by birds:
-```{r}
-feed <- read.csv(here ("data/feeding_rates_gopro.csv"), sep=";", comment.char = "#")
-```
-
-Remove rows with non-available data:
-```{r}
-feed <- feed %>% 
-  filter(feeding=="yes") %>%  #remove videos where no feeding
-  filter(!is.na(beak_trials)) %>% #remove videos that don't have behaviour/pref data 
-  filter(black_availability >= 0.1 & black_availability <= 0.9) %>% #select videos where there black fruit available is between 10 and 90%
-  mutate(black_pref=fruit_black/(fruit_black+fruit_red))
-```
-
-```{r}
-feed %>% summarise(black_pref.mean=mean(black_pref, na.rm=T),
-            black_pref.sd=sd(black_pref, na.rm=T))
-```
-
-
-
