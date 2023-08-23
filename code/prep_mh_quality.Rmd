@@ -20,7 +20,7 @@ P.disp.seed.mh <- readRDS(here("../Pistacia_effectiveness/analysis/output/Pdispe
 
 P.disp.seed.mh <- P.disp.seed.mh %>%
   mutate(mh_use = paste0("Prob.bird.mh_", mh)) %>%
-  select(bird_sp, mh_use, Prob.bird.mh) %>%
+  dplyr::select(bird_sp, mh_use, Prob.bird.mh) %>%
   pivot_wider(names_from = mh_use, values_from = Prob.bird.mh, values_fn = list) %>%
   unnest(cols = c(Prob.bird.mh_FR, 
                   Prob.bird.mh_NF, 
@@ -38,7 +38,7 @@ P.disp.seed.mh.cover <- readRDS(here("data/Pdisperse.bird.mh.cover.rds"))
 
 P.disp.seed.mh.cover <- P.disp.seed.mh.cover %>%
   mutate(mh_use = paste0("Prob.bird.mh.cover_", mh)) %>%
-  select(bird_sp, mh_use, Prob.bird.mh) %>%
+  dplyr::select(bird_sp, mh_use, Prob.bird.mh) %>%
   pivot_wider(names_from = mh_use, values_from = Prob.bird.mh, values_fn = list) %>%
   unnest(cols = c(Prob.bird.mh.cover_FR, 
                   Prob.bird.mh.cover_NF, 
@@ -56,7 +56,7 @@ pred <- readRDS(here("../Pistacia_effectiveness/analysis/output/pred.mh.post.lon
 
 pred.wide <- pred %>%
   mutate(mh_pred = paste0("Prob.escaping.pred_", mh)) %>%
-  select(mh_pred, Prob.escaping.pred) %>%
+  dplyr::select(mh_pred, Prob.escaping.pred) %>%
   pivot_wider(names_from = mh_pred, values_from = Prob.escaping.pred, values_fn = list) %>%
   unnest(cols = c(Prob.escaping.pred_FR, 
                   Prob.escaping.pred_NF, 
@@ -74,7 +74,7 @@ emergence <- readRDS(here("data/emergence.mh.post.rds"))
 
 emer.wide <- emergence %>%
   mutate(mh_emer = paste0("Prob.emergence_", mh)) %>%
-  select(mh_emer, surv.avg) %>%
+  dplyr::select(mh_emer, surv.avg) %>%
   pivot_wider(names_from = mh_emer, values_from = surv.avg, values_fn = list) %>%
   unnest(cols = c(Prob.emergence_FR, 
                   Prob.emergence_NF, 
@@ -92,7 +92,7 @@ surv.1st <- readRDS(here("data/surv.1st.summer.post.rds"))
 
 surv.1st.wide <- surv.1st %>%
   mutate(mh_surv1 = paste0("Prob.surv.1summer_", mh)) %>%
-  select(mh_surv1, surv.avg) %>%
+  dplyr::select(mh_surv1, surv.avg) %>%
   pivot_wider(names_from = mh_surv1, values_from = surv.avg, values_fn = list) %>%
   unnest(cols = c(Prob.surv.1summer_FR, 
                   Prob.surv.1summer_NF, 
@@ -110,7 +110,7 @@ surv.2nd <- readRDS(here("data/surv.2nd.summer.post.rds"))
 
 surv.2nd.wide <- surv.2nd %>%
   mutate(mh_surv2 = paste0("Prob.surv.2summer_", mh)) %>%
-  select(mh_surv2, surv.avg) %>%
+  dplyr::select(mh_surv2, surv.avg) %>%
   pivot_wider(names_from = mh_surv2, values_from = surv.avg, values_fn = list) %>%
   unnest(cols = c(Prob.surv.2summer_FR, 
                   Prob.surv.2summer_NF, 
