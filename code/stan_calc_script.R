@@ -61,7 +61,7 @@ all.equal(names(consum), disp$bird_sp)
 
 ## Plant crop size
 
-crop <- readr::read_csv2("data/crop_ind_plants.csv", skip = 10) |> 
+crop <- readr::read_csv2("data/crop_ind_plants.csv", skip = 5) |> 
   arrange(plant_id) |> 
   mutate(cropsize = initcrop) 
 
