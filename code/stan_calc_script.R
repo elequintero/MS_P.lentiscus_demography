@@ -118,7 +118,7 @@ init <- list(
 #### Model 
 
 mod <- stan(
-  file = "code/Stanmodel.stan",
+  file = "code/models/Stanmodel.stan",
   data = standata,
   pars = params,
   # pars = "plant_Nviab_prod_consum_diff",
