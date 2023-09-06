@@ -102,35 +102,14 @@ indv_rec <- recruitment_plants_EP %>%
   group_by(id_plant) %>% 
   summarise(recruits = median(recruits)) %>%
   mutate(rank = rank(desc(recruits))) %>%
-  ungroup() %>%
-  mutate(total_recruits = sum(recruits),
-         prop.rec = recruits/total_recruits) %>%
-  arrange(desc(rank)) %>%
-  mutate(cum_recruits = cumsum(recruits),
-         cum_prop = cumsum(prop.rec)) %>%
-  mutate(rec90 = ifelse(cum_prop > 0.9, "yes", "no"),
-         rec50 = ifelse(cum_prop > 0.5, "yes", "no"))
+  ungroup()
 
-#Number of plants to achieve 50% recruitment
-indv_rec %>% group_by(rec90) %>% count()
-#Number of plants to achieve 90% recruitment
-indv_rec %>% group_by(rec50) %>% count()
-
-cum <- ggplot(indv_rec, aes(x = rank, y = cum_recruits, label = id_plant)) +
-  geom_line() + geom_point(size = 3) + #ggrepel::geom_text_repel(size = 2.5) +
-  labs(y = "Cumulative number of recruits") +
-  theme_minimal()
-
-normal <- ggplot(indv_rec, aes(x = rank, y = recruits, label = id_plant)) +
+ggplot(indv_rec, aes(x = rank, y = recruits, label = id_plant)) +
   ggalt::geom_lollipop(point.size = 3) + #ggrepel::geom_text_repel(size = 2.5) +
   labs(y = "Number of recruits") +
   theme_minimal()
-
-library(patchwork)
-
-cum + normal 
 ```
 
 ```{r}
-ggsave(here("figs/fig_recruits_by_plant.pdf"), width = 10, height = 4)
+ggsave(here("figs/fig_recruits_by_plant.pdf"), width = 5, height = 4)
 ```
